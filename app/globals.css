@@ -1,0 +1,565 @@
+@import url('https://fonts.googleapis.com/css2?family=Albert+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+@import "tailwindcss";
+
+@font-face {
+  font-family: 'Recoleta';
+  src: url('/fonts/Recoleta-Regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ─── CSS Variables ─────────────────────────────────────── */
+:root {
+  --font-recoleta: 'Recoleta', Georgia, serif;
+  --bg:         #f8f5f1;   /* warm cream — exact from designbyroka.com */
+  --fg:         #060d19;   /* dark navy — exact from designbyroka.com */
+  --accent:     #e5342a;   /* red accent */
+  --muted:      #5d6067;   /* muted gray — exact from designbyroka.com */
+  --border:     #e2ded9;
+  --dark-bg:    #060d19;
+  --dark-fg:    #f8f5f1;
+  --dark-muted: #8a8f97;
+}
+
+/* ─── Reset & Base ──────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Albert Sans', sans-serif;
+  background-color: var(--bg);
+  color: var(--fg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+/* ─── Keyframe Animations ───────────────────────────────── */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(32px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes glyphPulse {
+  0%, 100% { opacity: 0; }
+  20%, 80%  { opacity: 0.55; }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ─── CTA Button ────────────────────────────────────────── */
+.cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.75rem 1.5rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.cta-btn--dark {
+  color: var(--bg);
+  background: var(--fg);
+  border: 1.5px solid var(--fg);
+}
+
+.cta-btn--dark:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.cta-btn--light {
+  color: var(--dark-bg);
+  background: var(--dark-fg);
+  border: 1.5px solid var(--dark-fg);
+}
+
+.cta-btn--light:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+/* ─── Nav link hover underline ──────────────────────────── */
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: var(--accent);
+  transition: width 0.25s ease;
+}
+.nav-link:hover::after {
+  width: 100%;
+}
+.nav-link:hover {
+  color: var(--fg);
+}
+
+
+/* ─── Hero CTA links ────────────────────────────────────── */
+.hero-cta:hover {
+  color: var(--accent) !important;
+}
+
+/* ─── Browse Work down-arrow animation ─────────────────── */
+@keyframes arrowDrop {
+  0%   { top: -14px; opacity: 0; }
+  20%  { opacity: 1;             }
+  80%  { opacity: 1;             }
+  100% { top: 18px;  opacity: 0; }
+}
+
+.arrow-drop-wrap {
+  position:  relative;
+  display:   inline-block;
+  overflow:  hidden;
+  height:    18px;
+  width:     10px;
+  vertical-align: middle;
+}
+
+.arrow-drop-wrap svg {
+  position: absolute;
+  left:     0;
+  top:      -14px;
+  animation: arrowDrop 0.9s cubic-bezier(0.4, 0, 0.55, 1) infinite;
+  mask-image: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 1) 20%,
+    rgba(0, 0, 0, 1) 80%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 1) 20%,
+    rgba(0, 0, 0, 1) 80%,
+    rgba(0, 0, 0, 0) 100%
+  );
+}
+
+/* ─── Case Studies ──────────────────────────────────────── */
+
+/* Title */
+.cs-title {
+  font-family:   var(--font-recoleta);
+  font-size:     clamp(2.5rem, 5vw, 4.5rem);
+  font-weight:   700;
+  color:         var(--fg);
+  line-height:   1.06;
+  letter-spacing: -0.02em;
+  margin-bottom: 1.75rem;
+  max-width:     16ch;
+  opacity:       0;
+  transform:     translateY(20px);
+  transition:    opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+                 transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: 80ms;
+}
+
+/* Description row — takes up half the card width */
+.cs-meta-row {
+  margin-bottom: 1rem;
+  opacity:       0;
+  transform:     translateY(16px);
+  transition:    opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+                 transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: 160ms;
+}
+
+.cs-desc {
+  font-size:   1rem;          /* 16px */
+  color:       var(--muted);
+  line-height: 1.75;
+  width:       50%;
+}
+
+.cs-role,
+.cs-timeline {
+  font-size:      1rem;   /* 16px */
+  color:          var(--muted);
+  letter-spacing: 0.01em;
+}
+
+.cs-sep {
+  font-size: 1rem;
+  color:     var(--border);
+}
+
+/* Image area wrapper — contains the timeline label + image */
+.cs-img-area {
+  position: relative;
+}
+
+/* Timeline label — right-aligned, 16px above the image */
+.cs-img-timeline {
+  display:        flex;
+  align-items:    center;
+  justify-content: flex-end;
+  gap:            0.5rem;
+  margin-bottom:  16px;
+  opacity:        0;
+  transform:      translateY(12px);
+  transition:     opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+                  transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: 200ms;
+}
+
+/* Image container — 2:1 aspect ratio */
+.cs-img-wrap {
+  display:       block;
+  position:      relative;
+  width:         100%;
+  aspect-ratio:  2 / 1;
+  border-radius: 12px;
+  overflow:      hidden;
+  opacity:       0;
+  transform:     translateY(20px);
+  transition:    opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+                 transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: 240ms;
+}
+
+.cs-img-bg {
+  position:   absolute;
+  inset:      0;
+  transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.cs-img-wrap:hover .cs-img-bg {
+  transform: scale(1.02);
+}
+
+/* Browser chrome bar */
+.cs-chrome {
+  position:    absolute;
+  top:         0;
+  left:        0;
+  right:       0;
+  height:      38px;
+  display:     flex;
+  align-items: center;
+  gap:         6px;
+  padding:     0 14px;
+  z-index:     2;
+  flex-shrink: 0;
+}
+
+.cs-chrome-dot {
+  display:       block;
+  width:         10px;
+  height:        10px;
+  border-radius: 50%;
+  background:    rgba(255,255,255,0.22);
+  flex-shrink:   0;
+}
+
+.cs-chrome-bar {
+  display:       block;
+  flex:          1;
+  max-width:     280px;
+  height:        22px;
+  border-radius: 4px;
+  margin-left:   10px;
+}
+
+/* Reveal on scroll — flip everything to visible */
+.cs-card.cs-visible .cs-title,
+.cs-card.cs-visible .cs-meta-row,
+.cs-card.cs-visible .cs-img-timeline,
+.cs-card.cs-visible .cs-img-wrap {
+  opacity:   1;
+  transform: none;
+}
+
+/* ─── Utility ───────────────────────────────────────────── */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* ─── Animation helpers ─────────────────────────────────── */
+.anim-fade-up {
+  opacity: 0;
+  animation: fadeUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.anim-fade-in {
+  opacity: 0;
+  animation: fadeIn 0.6s ease forwards;
+}
+
+.delay-0  { animation-delay: 0ms; }
+.delay-1  { animation-delay: 100ms; }
+.delay-2  { animation-delay: 200ms; }
+.delay-3  { animation-delay: 350ms; }
+.delay-4  { animation-delay: 500ms; }
+.delay-5  { animation-delay: 650ms; }
+
+/* ─── About section — scroll reveal ────────────────────── */
+/* Initial hidden state lives in the CLASS (not inline style),
+   so the cascade override works without !important.         */
+.about-anim {
+  opacity:   0;
+  transform: translateY(20px);
+}
+.about-visible .about-anim {
+  opacity:   1;
+  transform: none;
+}
+
+/* ─── Footer links ──────────────────────────────────────── */
+.footer-link {
+  font-size:      1rem;      /* 16px */
+  font-weight:    600;
+  color:          #ffffff;
+  opacity:        1;
+  letter-spacing: 0.01em;
+  transition:     opacity 0.2s ease;
+}
+.footer-link:hover { opacity: 0.75; }
+
+.footer-col-label {
+  font-size:      1rem !important;   /* 16px */
+  font-weight:    400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color:          var(--dark-muted);
+}
+
+.footer-nav-link {
+  font-size:   1rem !important;      /* 16px */
+  font-weight: 600;
+  color:       #ffffff;
+  opacity:     1;
+  transition:  opacity 0.2s ease;
+}
+.footer-nav-link:hover { opacity: 0.65; }
+
+/* ─── About responsive ──────────────────────────────────── */
+@media (max-width: 1023px) {
+  .about-cols { flex-direction: column !important; }
+  .about-principles-col { flex: none !important; width: 100% !important; }
+  .about-intro-inner { flex-direction: column !important; }
+}
+
+/* ─── Footer responsive ─────────────────────────────────── */
+@media (max-width: 767px) {
+  .footer-bottom {
+    flex-direction: column !important;
+    align-items:    flex-start !important;
+  }
+  .footer-nav-columns {
+    flex-wrap: wrap !important;
+    gap:       2rem !important;
+  }
+}
+
+/* ─── Hamburger: hidden on desktop ──────────────────────── */
+.nav-hamburger { display: none; }
+
+/* ═══ TABLET + MOBILE  (≤ 1023px) ══════════════════════════ */
+@media (max-width: 1023px) {
+  /* Nav — swap desktop links for hamburger */
+  .nav-desktop-links { display: none !important; }
+  .nav-hamburger     { display: flex !important; }
+
+  /* Hero — scale Amharic down to tablet size */
+  .hero-amharic-text { font-size: 70px !important; }
+
+  /* Case studies — description full width */
+  .cs-desc { width: 100% !important; }
+}
+
+/* ═══ MOBILE  (< 768px) ═════════════════════════════════════ */
+@media (max-width: 767px) {
+  /* Hero — Amharic logo: small but present */
+  .hero-amharic-wrap  { left: 1.5rem !important; }
+  .hero-amharic-text  { font-size: 42px !important; }
+  .hero-amharic-quote { display: none !important; }
+
+  /* Hero — bottom bar stacks vertically */
+  .hero-bottom {
+    flex-direction: column !important;
+    align-items:    flex-start !important;
+    gap:            1.75rem !important;
+    padding-left:   1.5rem !important;
+    padding-right:  1.5rem !important;
+  }
+  .hero-ctas { align-items: flex-start !important; }
+
+  /* Case studies — tighter card padding */
+  .cs-card {
+    padding-top:    3rem !important;
+    padding-bottom: 3rem !important;
+    padding-left:   1.5rem !important;
+    padding-right:  1.5rem !important;
+  }
+
+  /* Case studies — layout adjustments */
+  .cs-desc         { width: 100% !important; }
+  .cs-img-wrap     { aspect-ratio: 3 / 2 !important; }
+  .cs-img-timeline { justify-content: flex-start !important; }
+
+  /* Case studies — smaller browser chrome */
+  .cs-chrome     { height: 28px !important; padding: 0 10px !important; }
+  .cs-chrome-dot { width: 7px !important; height: 7px !important; }
+  .cs-chrome-bar { height: 16px !important; }
+
+  /* Case studies — smaller meta text */
+  .cs-role, .cs-timeline, .cs-sep { font-size: 0.875rem !important; }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   CASE STUDY PAGE  (CaseStudyPage.tsx)
+═══════════════════════════════════════════════════════════════ */
+
+/* Scroll-reveal: hidden → visible (both classes on the same element) */
+.csp-anim {
+  opacity:   0;
+  transform: translateY(22px);
+  transition: opacity 0.75s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.csp-anim.csp-visible {
+  opacity:   1;
+  transform: none;
+}
+
+/* Back link hover */
+.csp-back-link:hover { color: var(--fg) !important; }
+
+/* Overview: two-col with sidebar */
+.csp-overview-grid {
+  display:               grid;
+  grid-template-columns: 1fr 280px;
+  gap:                   clamp(2rem, 5vw, 6rem);
+  align-items:           start;
+  margin-bottom:         clamp(3rem, 5vw, 5rem);
+}
+
+/* Stats bar */
+.csp-stats-row {
+  display:               grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap:                   2px;
+}
+.csp-stat {
+  padding:     2rem 1.5rem;
+  text-align:  center;
+}
+
+/* User roles grid */
+.csp-roles-grid {
+  display:               grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap:                   2px;
+  margin-top:            0.5rem;
+}
+.csp-role-card {
+  padding:     2rem;
+}
+
+/* Process items */
+.csp-process-item {
+  display:     flex;
+  gap:         2rem;
+  padding:     1.75rem 0;
+  align-items: flex-start;
+}
+
+/* Decision items */
+.csp-decision-item {
+  display:               grid;
+  grid-template-columns: 160px 1fr;
+  gap:                   2rem;
+  padding:               1.75rem 0;
+  align-items:           start;
+}
+.csp-decision-label {
+  padding-top: 0.2rem;
+}
+
+/* Next/prev nav links */
+.csp-nav-link {
+  transition: background 0.2s ease;
+}
+.csp-nav-link:hover {
+  background: rgba(6,13,25,0.03);
+}
+
+/* ── Case study page responsive ── */
+@media (max-width: 1023px) {
+  .csp-overview-grid      { grid-template-columns: 1fr !important; }
+  .csp-meta-sidebar       { display: grid !important; grid-template-columns: repeat(2, 1fr) !important; }
+  .csp-roles-grid         { grid-template-columns: 1fr !important; }
+  .csp-decision-item      { grid-template-columns: 1fr !important; }
+  .csp-hero-row           { flex-direction: column !important; align-items: flex-start !important; }
+  .csp-hero-meta          { flex-wrap: wrap !important; }
+  .csp-hero-meta > div    { text-align: left !important; }
+}
+
+@media (max-width: 767px) {
+  .csp-stats-row          { grid-template-columns: repeat(2, 1fr) !important; }
+  .csp-process-item       { flex-direction: column !important; gap: 0.75rem !important; }
+}
