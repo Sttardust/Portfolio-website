@@ -9,6 +9,21 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: 'GeezManuscript';
+  src: url('/fonts/Geez-Manuscript-Zemen-COLR.ttf') format('truetype');
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Apply Geez font to all Amharic/Ethiopic script characters */
+:lang(am), [lang="am"],
+.hero-amharic-text,
+.hero-amharic-quote {
+  font-family: 'GeezManuscript', serif !important;
+}
+
 /* ─── CSS Variables ─────────────────────────────────────── */
 :root {
   --font-recoleta: 'Recoleta', Georgia, serif;
@@ -489,6 +504,9 @@ button {
 /* Back link hover */
 .csp-back-link:hover { color: var(--fg) !important; }
 
+/* Nav dropdown item hover */
+.nav-dropdown-item:hover { background: rgba(6,13,25,0.05) !important; }
+
 /* Overview: two-col with sidebar */
 .csp-overview-grid {
   display:               grid;
@@ -562,4 +580,13 @@ button {
 @media (max-width: 767px) {
   .csp-stats-row          { grid-template-columns: repeat(2, 1fr) !important; }
   .csp-process-item       { flex-direction: column !important; gap: 0.75rem !important; }
+}
+
+/* ── About Page (app/about) ─────────────────────────────── */
+@media (max-width: 1023px) {
+  .ap-statement-grid { grid-template-columns: 1fr !important; }
+  .ap-section-grid   { grid-template-columns: 1fr !important; direction: ltr !important; }
+}
+@media (max-width: 767px) {
+  .ap-stats-grid     { grid-template-columns: repeat(2, 1fr) !important; }
 }

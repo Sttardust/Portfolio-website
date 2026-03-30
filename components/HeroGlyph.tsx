@@ -89,7 +89,7 @@ export default function HeroGlyph() {
     const cy = CANVAS_PX / 2
 
     ctx.clearRect(0, 0, CANVAS_PX, CANVAS_PX)
-    ctx.font      = `500 ${FONT_PX}px "Albert Sans", sans-serif`
+    ctx.font      = `500 ${FONT_PX}px "GeezManuscript", serif`
     ctx.textAlign = 'center'
     ctx.textBaseline = 'middle'
 
@@ -136,10 +136,25 @@ export default function HeroGlyph() {
     rafRef.current = requestAnimationFrame(draw)
   }, [])
 
-  // ── Init ───────────────────────────────────────────────
+  // ── Init — load Geez font first, then start animation ──
   useEffect(() => {
     glyphsRef.current = buildGlyphs()
-    rafRef.current    = requestAnimationFrame(draw)
+
+    const loadAndStart = async () => {
+      try {
+        const font = new FontFace(
+          'GeezManuscript',
+          "url('/fonts/Geez-Manuscript-Zemen-COLR.ttf') format('truetype')"
+        )
+        const loaded = await font.load()
+        document.fonts.add(loaded)
+      } catch {
+        // Font failed to load — canvas will fall back to serif
+      }
+      rafRef.current = requestAnimationFrame(draw)
+    }
+
+    loadAndStart()
     return () => cancelAnimationFrame(rafRef.current)
   }, [draw])
 

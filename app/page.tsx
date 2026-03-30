@@ -25,7 +25,7 @@ function HeroSection() {
         overflow: 'hidden',
       }}
     >
-      {/* ── Vertical 'ሰመረ' + quote — top-left ── */}
+      {/* ── Hero SVG + quote — top-left ── */}
       <div
         className="anim-fade-in delay-0 hero-amharic-wrap"
         style={{
@@ -40,33 +40,29 @@ function HeroSection() {
           gap:           '1.25rem',
         }}
       >
-        {/* Vertical Amharic letters stacked top-to-bottom */}
-        <div
+        {/* Hero SVG in place of vertical Amharic text */}
+        <img
+          src="/hero.svg"
+          alt=""
+          aria-hidden
           className="hero-amharic-text"
           style={{
-            writingMode:     'vertical-lr',
-            textOrientation: 'upright',
-            fontSize:        '113px',
-            fontWeight:      500,
-            lineHeight:      1,
-            letterSpacing:   '0px',
-            color:           '#060d19',
-            opacity:         1,
+            height:  '226px',
+            width:   'auto',
+            display: 'block',
           }}
-        >
-          ሰመረ
-        </div>
+        />
 
-        {/* Small quote alongside the vertical text */}
+        {/* Small quote alongside */}
         <p
           className="hero-amharic-quote"
           style={{
-            marginTop:   '0.25rem',
-            fontSize:    '0.75rem',
-            fontWeight:  400,
-            lineHeight:  1.7,
-            color:       '#060d19',
-            maxWidth:    '140px',
+            marginTop:     '0.25rem',
+            fontSize:      '0.75rem',
+            fontWeight:    400,
+            lineHeight:    1.7,
+            color:         '#060d19',
+            maxWidth:      '140px',
             letterSpacing: '0.01em',
           }}
         >
@@ -133,7 +129,7 @@ function HeroSection() {
             About Me
           </NavCTA>
           <NavCTA href="/#work" className="anim-fade-up delay-4" arrow="down">
-            Browse Work
+            Browse My Work
           </NavCTA>
         </div>
       </div>

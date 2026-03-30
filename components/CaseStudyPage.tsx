@@ -104,39 +104,6 @@ export default function CaseStudyPage({ project }: { project: Project }) {
       }}>
         <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
 
-          {/* Back + eyebrow row */}
-          <Reveal>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', marginBottom: '2.5rem' }}>
-              <Link
-                href="/#work"
-                style={{
-                  fontSize:      '0.8125rem',
-                  fontWeight:    500,
-                  color:         'var(--muted)',
-                  display:       'inline-flex',
-                  alignItems:    'center',
-                  gap:           '0.35rem',
-                  transition:    'color 0.2s ease',
-                }}
-                className="csp-back-link"
-              >
-                <svg width="12" height="9" viewBox="0 0 12 9" fill="none">
-                  <path d="M11 4.5H1M4 1L1 4.5L4 8" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-                Work
-              </Link>
-              <span style={{ color: 'var(--border)', fontSize: '0.875rem' }}>/</span>
-              <span style={{
-                fontSize:      '0.6875rem',
-                fontWeight:    700,
-                letterSpacing: '0.14em',
-                textTransform: 'uppercase',
-                color:         'var(--muted)',
-              }}>
-                Case Study · {project.num}
-              </span>
-            </div>
-          </Reveal>
 
           {/* Large title */}
           <Reveal delay={60}>
@@ -574,7 +541,7 @@ export default function CaseStudyPage({ project }: { project: Project }) {
       >
         {project.prev && (
           <Link
-            href={`/work/${project.prev.slug}`}
+            href={`/${project.prev.slug}`}
             className="csp-nav-link"
             style={{
               display:     'block',
@@ -589,7 +556,7 @@ export default function CaseStudyPage({ project }: { project: Project }) {
         )}
         {project.next && (
           <Link
-            href={`/work/${project.next.slug}`}
+            href={`/${project.next.slug}`}
             className="csp-nav-link"
             style={{
               display:   'block',

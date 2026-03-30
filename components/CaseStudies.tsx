@@ -136,8 +136,10 @@ function ProjectCard({ project }: { project: Project }) {
       {/* ── Header ──────────────────────────────────────── */}
       <div className="cs-header">
 
-        {/* Title */}
-        <h2 className="cs-title">{project.title}</h2>
+        {/* Title — links directly to case study */}
+        <Link href={`/${project.slug}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+          <h2 className="cs-title">{project.title}</h2>
+        </Link>
 
         {/* Description only — takes half the width */}
         <div className="cs-meta-row">
@@ -157,15 +159,15 @@ function ProjectCard({ project }: { project: Project }) {
 
         {/* Mockup image panel */}
         <Link
-          href={`/work/${project.slug}`}
+          href={`/${project.slug}`}
           className="cs-img-wrap"
           tabIndex={-1}
           aria-hidden
           style={{
-            // Right-pointing arrow, hotspot at tip (26,16) in 32×32 canvas
+            // Arrow in a contrasting circle — dark card gets white circle+dark arrow, light card gets dark circle+white arrow
             cursor: project.dark
-              ? `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath d='M3 8L26 16L3 24L7 16Z' fill='white' stroke='rgba(0,0,0,0.35)' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E") 26 16, default`
-              : `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath d='M3 8L26 16L3 24L7 16Z' fill='%23060d19' stroke='rgba(255,255,255,0.25)' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E") 26 16, default`,
+              ? `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='44' height='44' viewBox='0 0 44 44'%3E%3Ccircle cx='22' cy='22' r='20' fill='white'/%3E%3Cpath d='M12 15L32 22L12 29L16 22Z' fill='%23060d19'/%3E%3C/svg%3E") 32 22, default`
+              : `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='44' height='44' viewBox='0 0 44 44'%3E%3Ccircle cx='22' cy='22' r='20' fill='%23060d19'/%3E%3Cpath d='M12 15L32 22L12 29L16 22Z' fill='white'/%3E%3C/svg%3E") 32 22, default`,
           }}
         >
 

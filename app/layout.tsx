@@ -23,6 +23,15 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={albertSans.variable}>
+      <head>
+        <link
+          rel="preload"
+          href="/fonts/Geez-Manuscript-Zemen-COLR.ttf"
+          as="font"
+          type="font/truetype"
+          crossOrigin="anonymous"
+        />
+      </head>
       <body suppressHydrationWarning style={{ fontFamily: 'var(--font-albert), Albert Sans, sans-serif' }}>
         <Nav />
         {children}

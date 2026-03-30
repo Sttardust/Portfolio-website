@@ -94,15 +94,16 @@ function GlyphGrid() {
 
 /* ── Link data ───────────────────────────────────────────── */
 const WORK_LINKS = [
-  { label: 'Discord Mobile Redesign', href: '/work/discord-mobile'      },
-  { label: 'Discord Communities',     href: '/work/discord-communities'  },
-  { label: 'Blitz',                   href: '/work/blitz'                },
+  { label: 'Novalut Fintech App',    href: '/novalut' },
+  { label: 'AiQEM AdTech Dashboard', href: '/aiqem'   },
+  { label: 'FEMA LMS',               href: '/fema'    },
+  { label: 'Cache Menu App',         href: '/cache'   },
 ]
 
 const CONTACT_LINKS = [
-  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/semere-seifu-stardust', external: true  },
-  { label: 'Behance',  href: 'https://www.behance.net/semereseifu',                external: true  },
-  { label: 'Email',    href: 'mailto:semeredesigner@gmail.com',                    external: false },
+  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/semere-seifu-stardust', external: true },
+  { label: 'Behance',  href: 'https://www.behance.net/semereseifu',                external: true },
+  { label: 'Telegram', href: 'https://t.me/Pipsquick',                             external: true },
 ]
 
 const PAD = 'clamp(1.5rem, calc((1500px - 100vw) / 10), 5rem)'
