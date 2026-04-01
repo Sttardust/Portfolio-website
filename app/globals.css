@@ -604,6 +604,10 @@ button {
   /* Homepage case study cards */
   .cs-card           { padding-left: 0.75rem !important; padding-right: 0.75rem !important; }
 
+  /* Homepage About section */
+  .about-intro,
+  .about-cols        { padding-left: 0.75rem !important; padding-right: 0.75rem !important; }
+
   /* Case study detail pages — all sections and nav */
   .csp-page section,
   .csp-page nav      { padding-left: 0.75rem !important; padding-right: 0.75rem !important; }
