@@ -598,26 +598,26 @@ button {
 /* ── Mobile small (≤ 425px) — halve all horizontal padding ─ */
 @media (max-width: 425px) {
   /* Hero */
-  .hero-bottom       { padding-left: 0.75rem !important; padding-right: 0.75rem !important; }
-  .hero-amharic-wrap { left: 0.75rem !important; }
+  .hero-bottom       { padding-left: 2.5rem !important; padding-right: 2.5rem !important; }
+  .hero-amharic-wrap { left: 2.5rem !important; }
 
   /* Homepage case study cards */
-  .cs-card           { padding-left: 0.75rem !important; padding-right: 0.75rem !important; }
+  .cs-card           { padding-left: 2.5rem !important; padding-right: 2.5rem !important; }
 
   /* Homepage About section */
   .about-intro,
-  .about-cols        { padding-left: 0.75rem !important; padding-right: 0.75rem !important; }
+  .about-cols        { padding-left: 2.5rem !important; padding-right: 2.5rem !important; }
 
   /* Case study detail pages — all sections and nav */
   .csp-page section,
-  .csp-page nav      { padding-left: 0.75rem !important; padding-right: 0.75rem !important; }
+  .csp-page nav      { padding-left: 2.5rem !important; padding-right: 2.5rem !important; }
 
   /* About page — all sections */
-  .ap-page section   { padding-left: 0.75rem !important; padding-right: 0.75rem !important; }
+  .ap-page section   { padding-left: 2.5rem !important; padding-right: 2.5rem !important; }
 
   /* Footer */
-  .footer-bottom-bar { padding-left: 0.75rem !important; padding-right: 0.75rem !important; }
-  .footer-glyph-wrap { padding-left: 0.75rem !important; padding-right: 0.75rem !important; }
+  .footer-bottom-bar { padding-left: 2.5rem !important; padding-right: 2.5rem !important; }
+  .footer-glyph-wrap { padding-left: 2.5rem !important; padding-right: 2.5rem !important; }
 }
 @media (max-width: 767px) {
   .ap-stats-grid     { grid-template-columns: repeat(2, 1fr) !important; }
