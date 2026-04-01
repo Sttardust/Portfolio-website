@@ -435,9 +435,9 @@ button {
 
 /* ═══ TABLET + MOBILE  (≤ 1023px) ══════════════════════════ */
 @media (max-width: 1023px) {
-  /* Nav — swap desktop links for hamburger */
+  /* Nav — swap desktop links for hamburger, always right-aligned */
   .nav-desktop-links { display: none !important; }
-  .nav-hamburger     { display: flex !important; }
+  .nav-hamburger     { display: flex !important; margin-left: auto; }
 
   /* Hero — scale Amharic down to tablet size */
   .hero-amharic-text { font-size: 70px !important; }
