@@ -158,6 +158,7 @@ export default function Footer() {
 
       {/* ── Glyph grid ──────────────────────────────────── */}
       <div
+        className="footer-glyph-wrap"
         style={{
           paddingTop:   'clamp(3rem, 6vw, 5rem)',
           paddingLeft:  PAD,
@@ -171,7 +172,7 @@ export default function Footer() {
 
       {/* ── Bottom bar ──────────────────────────────────── */}
       <div
-        className="footer-bottom"
+        className="footer-bottom footer-bottom-bar"
         style={{
           maxWidth:       '1536px',
           margin:         '0 auto',

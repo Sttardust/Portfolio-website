@@ -185,6 +185,7 @@ export default function HeroGlyph() {
   return (
     <canvas
       ref={canvasRef}
+      className="hero-glyph-canvas"
       width={CANVAS_PX}
       height={CANVAS_PX}
       onMouseMove={handleMouseMove}

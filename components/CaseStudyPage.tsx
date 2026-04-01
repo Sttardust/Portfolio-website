@@ -91,7 +91,7 @@ function Divider() {
 /* ═══════════════════════════════════════════════════════════════════════════ */
 export default function CaseStudyPage({ project }: { project: Project }) {
   return (
-    <>
+    <div className="csp-page">
       {/* ══════════════════════════════════════════════════════
           HERO — cream background, large editorial title
       ══════════════════════════════════════════════════════ */}
@@ -571,6 +571,6 @@ export default function CaseStudyPage({ project }: { project: Project }) {
           </Link>
         )}
       </nav>
-    </>
+    </div>
   )
 }

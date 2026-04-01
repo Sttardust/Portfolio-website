@@ -161,7 +161,7 @@ const SECTIONS = [
 /* ═══════════════════════════════════════════════════════════ */
 export default function AboutPage() {
   return (
-    <>
+    <div className="ap-page">
       {/* ── Global styles for this page ─────────────────── */}
       <style>{`
         .ap-anim {
@@ -482,6 +482,6 @@ export default function AboutPage() {
           </Link>
         </Reveal>
       </section>
-    </>
+    </div>
   )
 }
