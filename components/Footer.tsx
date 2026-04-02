@@ -101,9 +101,10 @@ const WORK_LINKS = [
 ]
 
 const CONTACT_LINKS = [
-  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/semere-seifu-stardust', external: true },
-  { label: 'Behance',  href: 'https://www.behance.net/semereseifu',                external: true },
-  { label: 'Telegram', href: 'https://t.me/Pipsquick',                             external: true },
+  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/semere-seifu-stardust', external: true  },
+  { label: 'Behance',  href: 'https://www.behance.net/semereseifu',                external: true  },
+  { label: 'Telegram', href: 'https://t.me/Pipsquick',                             external: true  },
+  { label: 'Résumé',   href: '/semere-seifu-resume.pdf',                           external: false, download: true },
 ]
 
 const PAD = 'clamp(1.5rem, calc((1500px - 100vw) / 10), 5rem)'
@@ -243,15 +244,16 @@ export default function Footer() {
           <div>
             <p className="footer-col-label" style={{ marginBottom: '1rem' }}>Contact</p>
             <nav style={{ display: 'flex', flexDirection: 'column', gap: '1.3rem' }}>
-              {CONTACT_LINKS.map(({ label, href, external }) => (
+              {CONTACT_LINKS.map((item) => (
                 <Link
-                  key={label}
-                  href={href}
+                  key={item.label}
+                  href={item.href}
                   className="footer-nav-link"
-                  target={external ? '_blank' : undefined}
-                  rel={external ? 'noopener noreferrer' : undefined}
+                  target={item.external ? '_blank' : undefined}
+                  rel={item.external ? 'noopener noreferrer' : undefined}
+                  download={'download' in item && item.download ? true : undefined}
                 >
-                  {label}
+                  {item.label}
                 </Link>
               ))}
             </nav>

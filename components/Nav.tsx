@@ -201,10 +201,35 @@ export default function Nav() {
               </Link>
             ))}
 
+            {/* Resume download */}
+            <a
+              href="/semere-seifu-resume.pdf"
+              download
+              style={{
+                fontSize:      '0.82rem',
+                fontWeight:    400,
+                color:         'var(--muted)',
+                letterSpacing: '0.01em',
+                opacity:       0,
+                animation:     'slideDown 0.5s ease 200ms forwards',
+                display:       'inline-flex',
+                alignItems:    'center',
+                gap:           '0.3rem',
+                transition:    'color 0.2s ease',
+              }}
+              className="nav-link"
+            >
+              Résumé
+              <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                <path d="M5 1v6M2 7l3 3 3-3M1 9h8" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </a>
+
             {/* Spacer + Get in touch button */}
-            <div style={{ width: '1px', height: '1.1rem', background: 'var(--border)', opacity: 0, animation: 'slideDown 0.5s ease 220ms forwards' }} />
+            <div style={{ width: '1px', height: '1.1rem', background: 'var(--border)', opacity: 0, animation: 'slideDown 0.5s ease 240ms forwards' }} />
             <button
               onClick={copyEmail}
+              className="nav-cta-btn"
               style={{
                 fontSize:      '0.82rem',
                 fontWeight:    500,

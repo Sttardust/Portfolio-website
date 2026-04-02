@@ -12,8 +12,37 @@ const albertSans = Albert_Sans({
 })
 
 export const metadata: Metadata = {
-  title: 'Semere Seifu — Product Designer',
-  description: 'Turning complexity into simple, usable products.',
+  title: {
+    default:  'Semere Seifu — UI/UX & Product Designer',
+    template: '%s — Semere Seifu',
+  },
+  description: 'UI/UX & Product Designer based in Addis Ababa, Ethiopia. Turning complexity into simple, usable products — one decision at a time.',
+  keywords:    ['UI/UX Designer', 'Product Designer', 'Addis Ababa', 'Ethiopia', 'Semere Seifu', 'Fintech', 'Mobile Design', 'Design Systems'],
+  authors:     [{ name: 'Semere Seifu', url: 'https://semere-portfolio.vercel.app' }],
+  openGraph: {
+    type:        'website',
+    locale:      'en_US',
+    url:         'https://semere-portfolio.vercel.app',
+    siteName:    'Semere Seifu',
+    title:       'Semere Seifu — UI/UX & Product Designer',
+    description: 'UI/UX & Product Designer based in Addis Ababa, Ethiopia. Turning complexity into simple, usable products.',
+    images: [{
+      url:    '/og-image.png',
+      width:  1200,
+      height: 630,
+      alt:    'Semere Seifu — UI/UX & Product Designer',
+    }],
+  },
+  twitter: {
+    card:        'summary_large_image',
+    title:       'Semere Seifu — UI/UX & Product Designer',
+    description: 'UI/UX & Product Designer based in Addis Ababa, Ethiopia.',
+    images:      ['/og-image.png'],
+  },
+  robots: {
+    index:  true,
+    follow: true,
+  },
 }
 
 export default function RootLayout({

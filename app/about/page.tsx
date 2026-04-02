@@ -67,7 +67,7 @@ const MOSAIC_LAYOUTS = [
 function PhotoMosaic({ index = 0, tint = '#5d6067' }: { index?: number; tint?: string }) {
   const layout = MOSAIC_LAYOUTS[index % MOSAIC_LAYOUTS.length]
   return (
-    <div style={{
+    <div className="ap-mosaic" style={{
       display:             'grid',
       gridTemplateColumns: 'repeat(3, 1fr)',
       gap:                 '6px',
@@ -212,7 +212,7 @@ export default function AboutPage() {
 
           {/* Hero image placeholder */}
           <Reveal delay={80}>
-            <div style={{
+            <div className="ap-hero-img" style={{
               width:        '100%',
               aspectRatio:  '21 / 9',
               borderRadius: '6px',
@@ -462,6 +462,7 @@ export default function AboutPage() {
           </h2>
           <Link
             href="mailto:semeredesigner@gmail.com"
+            className="ap-cta-link"
             style={{
               display:       'inline-flex',
               alignItems:    'center',

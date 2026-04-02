@@ -151,7 +151,7 @@ export default function CaseStudyPage({ project }: { project: Project }) {
       </section>
 
       {/* Hero image placeholder ─────────────────────────────────────────── */}
-      <div style={{
+      <div className="csp-hero-img-wrap" style={{
         paddingLeft:  PAD,
         paddingRight: PAD,
         background:   'var(--bg)',

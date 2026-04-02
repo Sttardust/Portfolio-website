@@ -13,8 +13,19 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const project  = getProject(slug)
   if (!project) return {}
   return {
-    title:       `${project.title} — Semere Seifu`,
+    title:       project.title,
     description: project.tagline,
+    openGraph: {
+      title:       `${project.title} — Semere Seifu`,
+      description: project.tagline,
+      type:        'article',
+      images:      [{ url: '/og-image.png', width: 1200, height: 630 }],
+    },
+    twitter: {
+      card:        'summary_large_image',
+      title:       `${project.title} — Semere Seifu`,
+      description: project.tagline,
+    },
   }
 }
 
