@@ -83,6 +83,7 @@ export default function Nav() {
         }}
       >
         <div
+          className="nav-inner"
           style={{
             maxWidth:       '1536px',
             margin:         '0 auto',
@@ -208,14 +209,13 @@ export default function Nav() {
               style={{
                 fontSize:      '0.82rem',
                 fontWeight:    400,
-                color:         'var(--muted)',
+                color:         'var(--fg)',
                 letterSpacing: '0.01em',
                 opacity:       0,
                 animation:     'slideDown 0.5s ease 200ms forwards',
                 display:       'inline-flex',
                 alignItems:    'center',
                 gap:           '0.3rem',
-                transition:    'color 0.2s ease',
               }}
               className="nav-link"
             >
@@ -371,6 +371,31 @@ export default function Nav() {
               </Link>
             ))}
 
+            {/* Résumé download */}
+            <a
+              href="/semere-seifu-resume.pdf"
+              download
+              onClick={() => setMenuOpen(false)}
+              style={{
+                fontFamily:    'var(--font-recoleta)',
+                fontSize:      'clamp(2rem, 8vw, 3rem)',
+                fontWeight:    400,
+                color:         'var(--fg)',
+                letterSpacing: '-0.02em',
+                lineHeight:    1,
+                opacity:       0,
+                animation:     `fadeUp 0.45s cubic-bezier(0.22,1,0.36,1) ${(NAV_LINKS.length + 1) * 60 + 40}ms forwards`,
+                display:       'inline-flex',
+                alignItems:    'center',
+                gap:           '0.5rem',
+              }}
+            >
+              Résumé
+              <svg width="14" height="14" viewBox="0 0 10 10" fill="none">
+                <path d="M5 1v6M2 7l3 3 3-3M1 9h8" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </a>
+
             {/* Get in touch */}
             <button
               onClick={() => { copyEmail(); setMenuOpen(false) }}
@@ -382,7 +407,7 @@ export default function Nav() {
                 letterSpacing: '-0.02em',
                 lineHeight:    1,
                 opacity:       0,
-                animation:     `fadeUp 0.45s cubic-bezier(0.22,1,0.36,1) ${(NAV_LINKS.length + 1) * 60 + 40}ms forwards`,
+                animation:     `fadeUp 0.45s cubic-bezier(0.22,1,0.36,1) ${(NAV_LINKS.length + 2) * 60 + 40}ms forwards`,
                 background:    'none',
                 border:        'none',
                 padding:       0,

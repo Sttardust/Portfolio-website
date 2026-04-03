@@ -452,6 +452,12 @@ button {
   .nav-desktop-links { display: none !important; }
   .nav-hamburger     { display: flex !important; margin-left: auto; }
 
+  /* Nav inner container: flush 1.5rem padding so hamburger sits at page edge */
+  .nav-inner {
+    padding-left:  1.5rem !important;
+    padding-right: 1.5rem !important;
+  }
+
   /* Hero — scale Amharic down to tablet size */
   .hero-amharic-text { font-size: 70px !important; }
 
