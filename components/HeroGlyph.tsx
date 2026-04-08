@@ -32,8 +32,8 @@ const STEP           = 27.5   // px between glyph centers
 const FONT_PX        = 18
 const BASE_ALPHA     = 0.3
 const HOVER_ALPHA    = 1.0
-const HOVER_R        = 18     // hit radius for center-circle hover
-const REVEAL_R       = 25     // hit radius for outside-circle reveal (50px diameter)
+const HOVER_R        = 18     // hit radius for single-glyph scale hover
+const EDGE_REVEAL_R  = 90     // px radius for edge-zone dissolve on hover
 const CYCLE_MS       = 700
 const CYCLE_PCT      = 0.015
 const LERP           = 0.08
@@ -50,12 +50,11 @@ interface Glyph {
   target:       number
   cycling:      boolean
   insideCircle: boolean
-  scale:        number   // current font scale multiplier
-  scaleTarget:  number   // desired scale multiplier
+  scale:        number
+  scaleTarget:  number
 }
 
 // ── Grid builder ──────────────────────────────────────────
-// Fills the entire canvas with glyphs; marks each as inside or outside the circle
 function buildGlyphs(): Glyph[] {
   const cx = CANVAS_PX / 2
   const cy = CANVAS_PX / 2
@@ -86,6 +85,7 @@ export default function HeroGlyph() {
   const glyphsRef    = useRef<Glyph[]>([])
   const rafRef       = useRef<number>(0)
   const lastCycleRef = useRef<number>(0)
+  const mouseRef     = useRef<{ mx: number; my: number } | null>(null)
 
   // ── Draw loop ──────────────────────────────────────────
   const draw = useCallback((ts: number) => {
@@ -102,32 +102,34 @@ export default function HeroGlyph() {
     ctx.textBaseline = 'middle'
 
     for (const g of glyphsRef.current) {
-      // Lerp opacity
-      g.opacity += (g.target - g.opacity) * LERP
-      // Lerp scale
+      // Lerp opacity + scale
+      g.opacity += (g.target  - g.opacity) * LERP
       g.scale   += (g.scaleTarget - g.scale) * LERP_SCALE
 
-      if (g.insideCircle) {
-        // Radial mask: fully opaque inside 60% radius, fade to 0 at 92%
-        const dist  = Math.sqrt((g.x - cx) ** 2 + (g.y - cy) ** 2)
-        const ratio = dist / RADIUS
-        const mask  = ratio < 0.6 ? 1 : Math.max(0, 1 - (ratio - 0.6) / 0.32)
-        const alpha = g.opacity * mask
-        if (alpha < 0.01) continue
+      if (!g.insideCircle) continue
 
-        ctx.globalAlpha = alpha
-        ctx.font        = `500 ${FONT_PX * g.scale}px "GeezManuscript", serif`
-        ctx.fillStyle   = GLYPH_COLOR
-        ctx.fillText(g.char, g.x, g.y)
-      } else {
-        // Outside circle — only draw when being revealed
-        if (g.opacity < 0.01) continue
+      // Radial mask: fully opaque inside 60% radius, fade to 0 at 92%
+      const dist  = Math.sqrt((g.x - cx) ** 2 + (g.y - cy) ** 2)
+      const ratio = dist / RADIUS
+      let mask    = ratio < 0.6 ? 1 : Math.max(0, 1 - (ratio - 0.6) / 0.32)
 
-        ctx.globalAlpha = g.opacity
-        ctx.font        = `500 ${FONT_PX}px "GeezManuscript", serif`
-        ctx.fillStyle   = GLYPH_COLOR
-        ctx.fillText(g.char, g.x, g.y)
+      // Edge-zone hover reveal — dissolve the gradient boundary outward from cursor
+      if (ratio >= 0.6 && mouseRef.current) {
+        const { mx, my } = mouseRef.current
+        const d2 = (g.x - mx) ** 2 + (g.y - my) ** 2
+        if (d2 < EDGE_REVEAL_R ** 2) {
+          const proximity = 1 - Math.sqrt(d2) / EDGE_REVEAL_R
+          mask = Math.min(1, mask + proximity * (1 - mask))
+        }
       }
+
+      const alpha = g.opacity * mask
+      if (alpha < 0.01) continue
+
+      ctx.globalAlpha = alpha
+      ctx.font        = `500 ${FONT_PX * g.scale}px "GeezManuscript", serif`
+      ctx.fillStyle   = GLYPH_COLOR
+      ctx.fillText(g.char, g.x, g.y)
     }
     ctx.globalAlpha = 1
 
@@ -178,7 +180,7 @@ export default function HeroGlyph() {
     return () => cancelAnimationFrame(rafRef.current)
   }, [draw])
 
-  // ── Hover ──────────────────────────────────────────────
+  // ── Hover — single closest glyph scales up ─────────────
   const handleMouseMove = useCallback((e: React.MouseEvent<HTMLCanvasElement>) => {
     const canvas = canvasRef.current
     if (!canvas) return
@@ -187,37 +189,39 @@ export default function HeroGlyph() {
     const mx    = (e.clientX - rect.left) * scale
     const my    = (e.clientY - rect.top)  * scale
 
-    const hoverR2  = HOVER_R  ** 2
-    const revealR2 = REVEAL_R ** 2
+    mouseRef.current = { mx, my }
+
+    // Find single closest inside-circle glyph within HOVER_R
+    let closestG: Glyph | null = null
+    let closestDist2 = HOVER_R ** 2
 
     for (const g of glyphsRef.current) {
+      if (!g.insideCircle || g.cycling) continue
       const dist2 = (g.x - mx) ** 2 + (g.y - my) ** 2
+      if (dist2 < closestDist2) {
+        closestDist2 = dist2
+        closestG = g
+      }
+    }
 
-      if (g.insideCircle) {
-        const close = dist2 < hoverR2
-        if (close && !g.cycling) {
-          g.target      = HOVER_ALPHA
-          g.scaleTarget = HOVER_SCALE
-        } else if (!close && g.target === HOVER_ALPHA) {
-          g.target      = BASE_ALPHA
-          g.scaleTarget = 1
-        }
-      } else {
-        const close = dist2 < revealR2
-        if (close)       g.target = HOVER_ALPHA
-        else if (!close && g.target === HOVER_ALPHA) g.target = 0
+    for (const g of glyphsRef.current) {
+      if (!g.insideCircle) continue
+      if (g === closestG) {
+        g.target      = HOVER_ALPHA
+        g.scaleTarget = HOVER_SCALE
+      } else if (g.target === HOVER_ALPHA) {
+        g.target      = BASE_ALPHA
+        g.scaleTarget = 1
       }
     }
   }, [])
 
   const handleMouseLeave = useCallback(() => {
+    mouseRef.current = null
     for (const g of glyphsRef.current) {
-      if (g.insideCircle) {
-        if (g.target === HOVER_ALPHA) g.target = BASE_ALPHA
-        g.scaleTarget = 1
-      } else {
-        g.target = 0
-      }
+      if (!g.insideCircle) continue
+      if (g.target === HOVER_ALPHA) g.target = BASE_ALPHA
+      g.scaleTarget = 1
     }
   }, [])
 
