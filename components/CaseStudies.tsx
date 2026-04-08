@@ -150,11 +150,22 @@ function ProjectCard({ project }: { project: Project }) {
       {/* ── Image area wrapper ───────────────────────────── */}
       <div className="cs-img-area">
 
-        {/* Timeline — top-right, 8px above image */}
+        {/* Timeline — above image */}
         <div className="cs-img-timeline">
-          <span className="cs-role">{project.role}</span>
-          <span className="cs-sep">·</span>
-          <span className="cs-timeline">{project.timeline}</span>
+          <div className="cs-timeline-left">
+            <span className="cs-role">
+              {project.role.replace(' (Solo)', '')}
+              <span className="cs-role-suffix">{project.role.includes('(Solo)') ? ' (Solo)' : ''}</span>
+            </span>
+            <span className="cs-sep">·</span>
+            <span className="cs-timeline">{project.timeline}</span>
+          </div>
+          <Link href={`/${project.slug}`} className="cs-learn-more">
+            Learn more
+            <svg width="12" height="9" viewBox="0 0 12 9" fill="none" aria-hidden>
+              <path d="M1 4.5H11M7.5 1L11 4.5L7.5 8" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </Link>
         </div>
 
         {/* Mockup image panel */}
@@ -164,7 +175,6 @@ function ProjectCard({ project }: { project: Project }) {
           tabIndex={-1}
           aria-hidden
           style={{
-            // Arrow in a contrasting circle — dark card gets white circle+dark arrow, light card gets dark circle+white arrow
             cursor: project.dark
               ? `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='44' height='44' viewBox='0 0 44 44'%3E%3Ccircle cx='22' cy='22' r='20' fill='white'/%3E%3Cpath d='M12 15L32 22L12 29L16 22Z' fill='%23060d19'/%3E%3C/svg%3E") 32 22, default`
               : `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='44' height='44' viewBox='0 0 44 44'%3E%3Ccircle cx='22' cy='22' r='20' fill='%23060d19'/%3E%3Cpath d='M12 15L32 22L12 29L16 22Z' fill='white'/%3E%3C/svg%3E") 32 22, default`,

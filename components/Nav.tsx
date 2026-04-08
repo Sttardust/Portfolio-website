@@ -93,11 +93,11 @@ export default function Nav() {
             paddingRight:   'clamp(1.5rem, calc((1500px - 100vw) / 10), 5rem)',
             display:        'flex',
             alignItems:     'center',
-            justifyContent: pathname === '/' ? 'flex-end' : 'space-between',
+            justifyContent: (pathname !== '/' || scrolled) ? 'space-between' : 'flex-end',
           }}
         >
-          {/* Logo — shown on all pages except homepage */}
-          {pathname !== '/' && (
+          {/* Logo — shown on all pages except homepage, and on homepage once scrolled */}
+          {(pathname !== '/' || scrolled) && (
             <Link href="/" style={{ display: 'flex', alignItems: 'center', flexShrink: 0 }}>
               <img
                 src="/logo.svg"
@@ -220,8 +220,8 @@ export default function Nav() {
               className="nav-link"
             >
               Résumé
-              <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
-                <path d="M5 1v6M2 7l3 3 3-3M1 9h8" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
+              <svg width="11" height="11" viewBox="0 0 11 11" fill="none">
+                <path d="M5.5 1v5.5M3 5l2.5 2.5L8 5M1 9.5h9" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
             </a>
 
@@ -371,7 +371,7 @@ export default function Nav() {
               </Link>
             ))}
 
-            {/* Résumé download */}
+            {/* Resume download */}
             <a
               href="/semere-seifu-resume.pdf"
               download
@@ -390,7 +390,7 @@ export default function Nav() {
                 gap:           '0.5rem',
               }}
             >
-              Résumé
+              Resume
               <svg width="14" height="14" viewBox="0 0 10 10" fill="none">
                 <path d="M5 1v6M2 7l3 3 3-3M1 9h8" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>

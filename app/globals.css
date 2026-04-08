@@ -75,6 +75,23 @@ button {
   background: none;
 }
 
+/* ─── Page enter transition ─────────────────────────────── */
+@keyframes pageEnter {
+  from {
+    opacity:   0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity:   1;
+    transform: translateY(0);
+  }
+}
+
+.ap-page,
+.csp-page {
+  animation: pageEnter 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
 /* ─── Keyframe Animations ───────────────────────────────── */
 @keyframes fadeUp {
   from {
@@ -259,6 +276,22 @@ button {
   position: relative;
 }
 
+/* Learn more button — mobile only */
+.cs-learn-more {
+  display:     none;
+  align-items: center;
+  gap:         0.3rem;
+  font-size:   0.875rem;
+  font-weight: 500;
+  color:       var(--fg);
+  white-space: nowrap;
+  transition:  opacity 0.2s ease;
+}
+.cs-learn-more:hover { opacity: 0.65; }
+
+/* (Solo) suffix — visible on desktop, hidden on mobile */
+.cs-role-suffix { display: inline; }
+
 /* Timeline label — right-aligned, 16px above the image */
 .cs-img-timeline {
   display:        flex;
@@ -436,11 +469,23 @@ button {
   .footer-bottom {
     flex-direction: column !important;
     align-items:    flex-start !important;
+    padding-left:   1.5rem !important;
+    padding-right:  1.5rem !important;
   }
+  .footer-glyph-wrap {
+    padding-left:  1.5rem !important;
+    padding-right: 1.5rem !important;
+  }
+  /* Work + Contact above branding */
   .footer-nav-columns {
+    order:     1 !important;
     flex-wrap: wrap !important;
     gap:       2rem !important;
+    margin-top: 1rem !important;
   }
+  .footer-brand { order: 2 !important; }
+  /* Year text pushed down with a bit of breathing room */
+  .footer-year  { margin-top: 1.5rem !important; }
 }
 
 /* ─── Hamburger: hidden on desktop ──────────────────────── */
@@ -473,7 +518,7 @@ button {
 @media (max-width: 767px) {
   /* Hero — Amharic logo / SVG: scale down to fit */
   .hero-amharic-wrap  { left: 1.5rem !important; }
-  .hero-amharic-text  { font-size: 42px !important; height: 140px !important; }
+  .hero-amharic-text  { font-size: 42px !important; height: 280px !important; }
   .hero-amharic-quote { display: none !important; }
 
   /* Hero — bottom bar stacks vertically */
@@ -484,7 +529,9 @@ button {
     padding-left:   1.5rem !important;
     padding-right:  1.5rem !important;
   }
-  .hero-ctas { align-items: flex-start !important; }
+  .hero-ctas         { align-items: flex-start !important; }
+  .hero-ctas-desktop { display: none !important; }
+  .hero-cta-mobile   { display: inline-flex !important; }
 
   /* Case studies — tighter card padding */
   .cs-card {
@@ -495,9 +542,12 @@ button {
   }
 
   /* Case studies — layout adjustments */
-  .cs-desc         { width: 100% !important; }
-  .cs-img-wrap     { aspect-ratio: 3 / 2 !important; }
-  .cs-img-timeline { justify-content: flex-start !important; }
+  .cs-desc          { width: 100% !important; }
+  .cs-img-wrap      { aspect-ratio: 3 / 2 !important; cursor: pointer !important; }
+  .cs-img-timeline  { justify-content: space-between !important; align-items: center !important; }
+  .cs-timeline-left { display: flex; align-items: center; gap: 0.5rem; }
+  .cs-learn-more    { display: inline-flex !important; }
+  .cs-role-suffix   { display: none !important; }
 
   /* Case studies — smaller browser chrome */
   .cs-chrome     { height: 28px !important; padding: 0 10px !important; }
@@ -627,7 +677,7 @@ button {
 /* ── Case study meta sidebar: single col on very small screens */
 @media (max-width: 425px) {
   .csp-meta-sidebar { grid-template-columns: 1fr !important; }
-  .hero-amharic-text { height: 110px !important; }
+  .hero-amharic-text { height: 220px !important; }
 }
 
 /* ── Mobile small (≤ 425px) — halve all horizontal padding ─ */
@@ -651,7 +701,7 @@ button {
   /* About page — all sections */
   .ap-page section   { padding-left: 2.5rem !important; padding-right: 2.5rem !important; }
 
-  /* Footer */
-  .footer-bottom-bar { padding-left: 2.5rem !important; padding-right: 2.5rem !important; }
-  .footer-glyph-wrap { padding-left: 2.5rem !important; padding-right: 2.5rem !important; }
+  /* Footer — keep 1.5rem from the 767px breakpoint */
+  .footer-bottom-bar { padding-left: 1.5rem !important; padding-right: 1.5rem !important; }
+  .footer-glyph-wrap { padding-left: 1.5rem !important; padding-right: 1.5rem !important; }
 }
