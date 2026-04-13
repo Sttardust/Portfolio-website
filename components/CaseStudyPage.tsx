@@ -161,35 +161,44 @@ export default function CaseStudyPage({ project }: { project: Project }) {
         <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
           <Reveal>
             <div style={{
-              width:         '100%',
-              aspectRatio:   '16 / 8',
-              borderRadius:  '8px',
-              overflow:      'hidden',
-              background:    `linear-gradient(160deg, ${project.accent}22 0%, ${project.accent}44 100%)`,
-              display:       'flex',
-              alignItems:    'center',
-              justifyContent:'center',
-              position:      'relative',
+              width:        '100%',
+              aspectRatio:  '16 / 8',
+              borderRadius: '8px',
+              overflow:     'hidden',
+              background:   `linear-gradient(160deg, ${project.accent}22 0%, ${project.accent}44 100%)`,
+              position:     'relative',
             }}>
-              {/* Subtle abstract shapes */}
-              <div style={{
-                position:   'absolute',
-                inset:      0,
-                background: `radial-gradient(ellipse 60% 50% at 70% 50%, ${project.accent}18 0%, transparent 70%)`,
-              }} />
-              <div style={{ textAlign: 'center', position: 'relative' }}>
-                <p style={{
-                  fontSize:      '0.6875rem',
-                  fontWeight:    700,
-                  letterSpacing: '0.12em',
-                  textTransform: 'uppercase',
-                  color:         project.accent,
-                  opacity:       0.6,
-                  margin:        0,
-                }}>
-                  Project screens coming soon
-                </p>
-              </div>
+              {project.video ? (
+                <video
+                  src={project.video}
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                />
+              ) : (
+                <>
+                  <div style={{
+                    position:   'absolute',
+                    inset:      0,
+                    background: `radial-gradient(ellipse 60% 50% at 70% 50%, ${project.accent}18 0%, transparent 70%)`,
+                  }} />
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', position: 'relative' }}>
+                    <p style={{
+                      fontSize:      '0.6875rem',
+                      fontWeight:    700,
+                      letterSpacing: '0.12em',
+                      textTransform: 'uppercase',
+                      color:         project.accent,
+                      opacity:       0.6,
+                      margin:        0,
+                    }}>
+                      Project screens coming soon
+                    </p>
+                  </div>
+                </>
+              )}
             </div>
           </Reveal>
         </div>

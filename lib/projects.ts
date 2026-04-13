@@ -28,6 +28,9 @@ export interface Project {
   decisions: { heading: string; items: Decision[] }
   outcome:   Outcome
 
+  // Media
+  video?: string           // path relative to /public, e.g. '/novalut/final-comps.mp4'
+
   // Navigation
   prev?: { slug: string; title: string }
   next?: { slug: string; title: string }
@@ -43,6 +46,7 @@ const novalut: Project = {
   badge:    'Mobile App · FinTech',
   accent:   '#1E3A5F',
   accentBg: '#EFF6FF',
+  video:    '/novalut/final-comps.mp4',
   meta: [
     { label: 'Client',    value: 'Amhara Bank' },
     { label: 'Role',      value: 'UX Designer (Solo)' },

@@ -12,6 +12,7 @@ const PROJECTS = [
     role:        'UX Designer (Solo)',
     timeline:    '2025 — 2026',
     slug:        'novalut',
+    video:       '/novalut/final-comps.mp4',
     chromeBg:    'rgba(0,0,0,0.4)',
     imgBg:       'linear-gradient(160deg, #070A13 0%, #0E1220 30%, #14182A 55%, #1E2B4A 80%, #1E3A5F 100%)',
     dark:        true,
@@ -184,41 +185,62 @@ function ProjectCard({ project }: { project: Project }) {
         {/* Gradient base */}
         <div className="cs-img-bg" style={{ background: project.imgBg }} />
 
-        {/* Browser chrome bar */}
-        <div
-          className="cs-chrome"
-          style={{ background: project.chromeBg }}
-        >
-          <span className="cs-chrome-dot" />
-          <span className="cs-chrome-dot" />
-          <span className="cs-chrome-dot" />
-          <span
-            className="cs-chrome-bar"
+        {project.video ? (
+          /* Video preview */
+          <video
+            src={project.video}
+            autoPlay
+            muted
+            loop
+            playsInline
             style={{
-              background: project.dark
-                ? 'rgba(255,255,255,0.1)'
-                : 'rgba(0,0,0,0.08)',
+              position:   'absolute',
+              inset:      0,
+              width:      '100%',
+              height:     '100%',
+              objectFit:  'cover',
+              display:    'block',
             }}
           />
-        </div>
+        ) : (
+          <>
+            {/* Browser chrome bar */}
+            <div
+              className="cs-chrome"
+              style={{ background: project.chromeBg }}
+            >
+              <span className="cs-chrome-dot" />
+              <span className="cs-chrome-dot" />
+              <span className="cs-chrome-dot" />
+              <span
+                className="cs-chrome-bar"
+                style={{
+                  background: project.dark
+                    ? 'rgba(255,255,255,0.1)'
+                    : 'rgba(0,0,0,0.08)',
+                }}
+              />
+            </div>
 
-        {/* Abstract UI shapes */}
-        {project.shapes.map(([x, y, w, h, a], i) => (
-          <div
-            key={i}
-            aria-hidden
-            style={{
-              position:     'absolute',
-              left:         `${x}%`,
-              top:          `calc(38px + ${y}% * 0.88)`,
-              width:        `${w}%`,
-              height:       `${h}%`,
-              borderRadius: '3px',
-              background:   `${shapeColor}${a})`,
-              pointerEvents:'none',
-            }}
-          />
-        ))}
+            {/* Abstract UI shapes */}
+            {project.shapes.map(([x, y, w, h, a], i) => (
+              <div
+                key={i}
+                aria-hidden
+                style={{
+                  position:     'absolute',
+                  left:         `${x}%`,
+                  top:          `calc(38px + ${y}% * 0.88)`,
+                  width:        `${w}%`,
+                  height:       `${h}%`,
+                  borderRadius: '3px',
+                  background:   `${shapeColor}${a})`,
+                  pointerEvents:'none',
+                }}
+              />
+            ))}
+          </>
+        )}
 
         </Link>
       </div>{/* /cs-img-area */}
