@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useCallback } from 'react'
+import { useEffect, useRef } from 'react'
 
 const GLYPH_POOL = [
   'ሀ','ሁ','ሂ','ሃ','ሄ','ህ','ሆ',
@@ -40,6 +40,7 @@ const LERP           = 0.08
 const LERP_SCALE     = 0.08
 const GLYPH_COLOR    = '#060d19'
 const HOVER_SCALE    = 3.0
+const MOBILE_QUERY   = '(max-width: 1023px)'  // matches the CSS that hides this canvas
 
 // ── Types ─────────────────────────────────────────────────
 interface Glyph {
@@ -81,147 +82,185 @@ function buildGlyphs(): Glyph[] {
 
 // ── Component ─────────────────────────────────────────────
 export default function HeroGlyph() {
-  const canvasRef    = useRef<HTMLCanvasElement>(null)
-  const glyphsRef    = useRef<Glyph[]>([])
-  const rafRef       = useRef<number>(0)
-  const lastCycleRef = useRef<number>(0)
-  const mouseRef     = useRef<{ mx: number; my: number } | null>(null)
+  const canvasRef = useRef<HTMLCanvasElement>(null)
 
-  // ── Draw loop ──────────────────────────────────────────
-  const draw = useCallback((ts: number) => {
+  useEffect(() => {
     const canvas = canvasRef.current
     if (!canvas) return
     const ctx = canvas.getContext('2d')
     if (!ctx) return
 
+    // Skip entirely on mobile — the canvas is `display:none` there, so running
+    // the RAF loop would only burn CPU/battery drawing nothing visible.
+    if (window.matchMedia(MOBILE_QUERY).matches) return
+
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
     const cx = CANVAS_PX / 2
     const cy = CANVAS_PX / 2
+    const glyphs = buildGlyphs()
 
-    ctx.clearRect(0, 0, CANVAS_PX, CANVAS_PX)
-    ctx.textAlign    = 'center'
-    ctx.textBaseline = 'middle'
+    let mouse: { mx: number; my: number } | null = null
+    let raf = 0
+    let lastCycle = 0
+    let ready = false
+    let visible = true
 
-    for (const g of glyphsRef.current) {
-      // Lerp opacity + scale
-      g.opacity += (g.target  - g.opacity) * LERP
-      g.scale   += (g.scaleTarget - g.scale) * LERP_SCALE
+    // ── Render the current glyph state (no state advancement) ──
+    const render = () => {
+      ctx.clearRect(0, 0, CANVAS_PX, CANVAS_PX)
+      ctx.textAlign    = 'center'
+      ctx.textBaseline = 'middle'
 
-      if (!g.insideCircle) continue
+      for (const g of glyphs) {
+        if (!g.insideCircle) continue
 
-      // Radial mask: fully opaque inside 60% radius, fade to 0 at 92%
-      const dist  = Math.sqrt((g.x - cx) ** 2 + (g.y - cy) ** 2)
-      const ratio = dist / RADIUS
-      let mask    = ratio < 0.6 ? 1 : Math.max(0, 1 - (ratio - 0.6) / 0.32)
+        const dist  = Math.sqrt((g.x - cx) ** 2 + (g.y - cy) ** 2)
+        const ratio = dist / RADIUS
+        let mask    = ratio < 0.6 ? 1 : Math.max(0, 1 - (ratio - 0.6) / 0.32)
 
-      // Edge-zone hover reveal — dissolve the gradient boundary outward from cursor
-      if (ratio >= 0.6 && mouseRef.current) {
-        const { mx, my } = mouseRef.current
-        const d2 = (g.x - mx) ** 2 + (g.y - my) ** 2
-        if (d2 < EDGE_REVEAL_R ** 2) {
-          const proximity = 1 - Math.sqrt(d2) / EDGE_REVEAL_R
-          mask = Math.min(1, mask + proximity * (1 - mask))
+        if (ratio >= 0.6 && mouse) {
+          const { mx, my } = mouse
+          const d2 = (g.x - mx) ** 2 + (g.y - my) ** 2
+          if (d2 < EDGE_REVEAL_R ** 2) {
+            const proximity = 1 - Math.sqrt(d2) / EDGE_REVEAL_R
+            mask = Math.min(1, mask + proximity * (1 - mask))
+          }
+        }
+
+        const alpha = g.opacity * mask
+        if (alpha < 0.01) continue
+
+        ctx.globalAlpha = alpha
+        ctx.font        = `500 ${FONT_PX * g.scale}px "GeezManuscript", serif`
+        ctx.fillStyle   = GLYPH_COLOR
+        ctx.fillText(g.char, g.x, g.y)
+      }
+      ctx.globalAlpha = 1
+    }
+
+    // ── One animation frame: advance state, render, schedule next ──
+    const tick = (ts: number) => {
+      for (const g of glyphs) {
+        if (!g.insideCircle) continue
+        g.opacity += (g.target      - g.opacity) * LERP
+        g.scale   += (g.scaleTarget - g.scale)   * LERP_SCALE
+      }
+
+      render()
+
+      if (ts - lastCycle > CYCLE_MS) {
+        lastCycle = ts
+        const pool = glyphs.filter(g => g.insideCircle && !g.cycling)
+        const n    = Math.max(4, Math.floor(pool.length * CYCLE_PCT))
+
+        for (let i = 0; i < n; i++) {
+          const idx = Math.floor(Math.random() * pool.length)
+          const g   = pool.splice(idx, 1)[0]
+          if (!g) continue
+          g.cycling = true
+          g.target  = 0
+
+          setTimeout(() => {
+            let next = g.char
+            while (next === g.char) next = GLYPH_POOL[Math.floor(Math.random() * GLYPH_POOL.length)]
+            g.char    = next
+            g.target  = BASE_ALPHA
+            g.cycling = false
+          }, 450)
         }
       }
 
-      const alpha = g.opacity * mask
-      if (alpha < 0.01) continue
-
-      ctx.globalAlpha = alpha
-      ctx.font        = `500 ${FONT_PX * g.scale}px "GeezManuscript", serif`
-      ctx.fillStyle   = GLYPH_COLOR
-      ctx.fillText(g.char, g.x, g.y)
+      raf = visible ? requestAnimationFrame(tick) : 0
     }
-    ctx.globalAlpha = 1
 
-    // ── Cycle random inside-circle glyphs ─────────────────
-    if (ts - lastCycleRef.current > CYCLE_MS) {
-      lastCycleRef.current = ts
-      const pool = glyphsRef.current.filter(g => g.insideCircle && !g.cycling)
-      const n    = Math.max(4, Math.floor(pool.length * CYCLE_PCT))
-
-      for (let i = 0; i < n; i++) {
-        const idx = Math.floor(Math.random() * pool.length)
-        const g   = pool.splice(idx, 1)[0]
-        g.cycling = true
-        g.target  = 0
-
-        setTimeout(() => {
-          let next = g.char
-          while (next === g.char) next = GLYPH_POOL[Math.floor(Math.random() * GLYPH_POOL.length)]
-          g.char    = next
-          g.target  = BASE_ALPHA
-          g.cycling = false
-        }, 450)
+    const ensureRunning = () => {
+      if (ready && !reduceMotion && visible && raf === 0) {
+        raf = requestAnimationFrame(tick)
       }
     }
 
-    rafRef.current = requestAnimationFrame(draw)
-  }, [])
+    // ── Hover — single closest glyph scales up ──
+    const onMove = (e: MouseEvent) => {
+      const rect  = canvas.getBoundingClientRect()
+      const scale = CANVAS_PX / rect.width
+      const mx    = (e.clientX - rect.left) * scale
+      const my    = (e.clientY - rect.top)  * scale
+      mouse = { mx, my }
 
-  // ── Init ───────────────────────────────────────────────
-  useEffect(() => {
-    glyphsRef.current = buildGlyphs()
-
-    const loadAndStart = async () => {
-      try {
-        const font = new FontFace(
-          'GeezManuscript',
-          "url('/fonts/Geez-Manuscript-Zemen-COLR.ttf') format('truetype')"
-        )
-        const loaded = await font.load()
-        document.fonts.add(loaded)
-      } catch {
-        // fall back to serif
+      let closestG: Glyph | null = null
+      let closestDist2 = HOVER_R ** 2
+      for (const g of glyphs) {
+        if (!g.insideCircle || g.cycling) continue
+        const dist2 = (g.x - mx) ** 2 + (g.y - my) ** 2
+        if (dist2 < closestDist2) { closestDist2 = dist2; closestG = g }
       }
-      rafRef.current = requestAnimationFrame(draw)
-    }
 
-    loadAndStart()
-    return () => cancelAnimationFrame(rafRef.current)
-  }, [draw])
-
-  // ── Hover — single closest glyph scales up ─────────────
-  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLCanvasElement>) => {
-    const canvas = canvasRef.current
-    if (!canvas) return
-    const rect  = canvas.getBoundingClientRect()
-    const scale = CANVAS_PX / rect.width
-    const mx    = (e.clientX - rect.left) * scale
-    const my    = (e.clientY - rect.top)  * scale
-
-    mouseRef.current = { mx, my }
-
-    // Find single closest inside-circle glyph within HOVER_R
-    let closestG: Glyph | null = null
-    let closestDist2 = HOVER_R ** 2
-
-    for (const g of glyphsRef.current) {
-      if (!g.insideCircle || g.cycling) continue
-      const dist2 = (g.x - mx) ** 2 + (g.y - my) ** 2
-      if (dist2 < closestDist2) {
-        closestDist2 = dist2
-        closestG = g
+      for (const g of glyphs) {
+        if (!g.insideCircle) continue
+        if (g === closestG) {
+          g.target      = HOVER_ALPHA
+          g.scaleTarget = HOVER_SCALE
+        } else if (g.target === HOVER_ALPHA) {
+          g.target      = BASE_ALPHA
+          g.scaleTarget = 1
+        }
       }
     }
 
-    for (const g of glyphsRef.current) {
-      if (!g.insideCircle) continue
-      if (g === closestG) {
-        g.target      = HOVER_ALPHA
-        g.scaleTarget = HOVER_SCALE
-      } else if (g.target === HOVER_ALPHA) {
-        g.target      = BASE_ALPHA
+    const onLeave = () => {
+      mouse = null
+      for (const g of glyphs) {
+        if (!g.insideCircle) continue
+        if (g.target === HOVER_ALPHA) g.target = BASE_ALPHA
         g.scaleTarget = 1
       }
     }
-  }, [])
 
-  const handleMouseLeave = useCallback(() => {
-    mouseRef.current = null
-    for (const g of glyphsRef.current) {
-      if (!g.insideCircle) continue
-      if (g.target === HOVER_ALPHA) g.target = BASE_ALPHA
-      g.scaleTarget = 1
+    // Pause the loop when the hero is scrolled out of view.
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        visible = entry.isIntersecting
+        if (visible) ensureRunning()
+      },
+      { threshold: 0 },
+    )
+    io.observe(canvas)
+
+    if (!reduceMotion) {
+      canvas.addEventListener('mousemove', onMove)
+      canvas.addEventListener('mouseleave', onLeave)
+    }
+
+    // Load the Ge'ez font, then start (or paint a single static frame).
+    let cancelled = false
+    const start = async () => {
+      try {
+        const font = new FontFace(
+          'GeezManuscript',
+          "url('/fonts/Geez-Manuscript-Zemen-COLR.ttf') format('truetype')",
+        )
+        document.fonts.add(await font.load())
+      } catch {
+        // fall back to serif
+      }
+      if (cancelled) return
+      ready = true
+      if (reduceMotion) {
+        for (const g of glyphs) { g.opacity = g.target; g.scale = g.scaleTarget }
+        render()
+      } else {
+        ensureRunning()
+      }
+    }
+    start()
+
+    return () => {
+      cancelled = true
+      cancelAnimationFrame(raf)
+      io.disconnect()
+      canvas.removeEventListener('mousemove', onMove)
+      canvas.removeEventListener('mouseleave', onLeave)
     }
   }, [])
 
@@ -231,8 +270,6 @@ export default function HeroGlyph() {
       className="hero-glyph-canvas"
       width={CANVAS_PX}
       height={CANVAS_PX}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
       style={{
         position:  'absolute',
         top:       '50%',

@@ -6,7 +6,6 @@ export const metadata: Metadata = {
   openGraph: {
     title:       'About — Semere Seifu',
     description: 'UI/UX & Product Designer based in Addis Ababa. Background in engineering, obsessed with detail, driven by empathy.',
-    images:      [{ url: '/og-image.png', width: 1200, height: 630 }],
   },
   twitter: {
     card:        'summary_large_image',

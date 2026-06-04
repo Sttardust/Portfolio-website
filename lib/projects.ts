@@ -8,12 +8,24 @@ export type Decision    = { label: string; title: string; body: string }
 export type UserRole    = { icon: string; title: string; subtitle: string; body: string; flows: string[] }
 export type Outcome     = { heading: string; body: string[]; points?: string[] }
 
+// Homepage project card (rendered by components/CaseStudies.tsx)
+export type HomeCard = {
+  description: string
+  role:        string
+  timeline:    string
+  imgBg:       string        // gradient background
+  chromeBg:    string        // browser-chrome bar tint
+  dark:        boolean       // dark gradient → light abstract shapes
+  shapes:      number[][]    // [x%, y%, w%, h%, alpha]
+}
+
 export interface Project {
   slug:      string
   num:       string            // "01", "02", …
   title:     string
   subtitle?: string
   tagline:   string
+  navLabel:  string            // full label used in nav + footer, e.g. "Novalut Fintech App"
   badge:     string            // e.g. "Mobile App · FinTech"
   accent:    string            // per-project muted accent (CSS colour string)
   accentBg:  string            // very light tint for pull-quote bg
@@ -31,6 +43,9 @@ export interface Project {
   // Media
   video?: string           // path relative to /public, e.g. '/novalut/final-comps.mp4'
 
+  // Homepage card
+  card: HomeCard
+
   // Navigation
   prev?: { slug: string; title: string }
   next?: { slug: string; title: string }
@@ -43,10 +58,26 @@ const novalut: Project = {
   title:    'Novalut',
   subtitle: 'Wedaje Neo',
   tagline:  'A full-featured neo-banking app for Ethiopians worldwide.',
+  navLabel: 'Novalut Fintech App',
   badge:    'Mobile App · FinTech',
   accent:   '#1E3A5F',
   accentBg: '#EFF6FF',
   video:    '/novalut/final-comps.mp4',
+  card: {
+    description: 'A full-featured neo-banking app for Ethiopians worldwide — covering 14 product modules from onboarding and core banking to merchant tools, FX, and AI-assisted lending. Designed for four radically different user personas with one coherent system.',
+    role:        'UX Designer (Solo)',
+    timeline:    '2025 — 2026',
+    chromeBg:    'rgba(0,0,0,0.4)',
+    imgBg:       'linear-gradient(160deg, #070A13 0%, #0E1220 30%, #14182A 55%, #1E2B4A 80%, #1E3A5F 100%)',
+    dark:        true,
+    shapes: [
+      [30, 10, 40, 60, 0.08],
+      [10, 15, 20, 40, 0.07],
+      [62, 15, 26, 40, 0.07],
+      [10, 60, 80, 5,  0.12],
+      [10, 70, 55, 4,  0.09],
+    ],
+  },
   meta: [
     { label: 'Client',    value: 'Amhara Bank' },
     { label: 'Role',      value: 'UX Designer (Solo)' },
@@ -187,9 +218,25 @@ const aiqem: Project = {
   num:     '02',
   title:   'AiQEM AdTech',
   tagline: 'A data-driven advertising dashboard that makes complex campaign data instantly actionable.',
+  navLabel:'AiQEM AdTech Dashboard',
   badge:   'Web Dashboard · AdTech',
   accent:  '#4C1D95',
   accentBg:'#F5F3FF',
+  card: {
+    description: 'An end-to-end advertising analytics dashboard for AiQEM Tech — surfacing five core data types across a modular interface for two distinct user types, built to eliminate the need for manual reporting entirely.',
+    role:        'UX Designer (Solo)',
+    timeline:    '2023 — 2025',
+    chromeBg:    'rgba(255,255,255,0.07)',
+    imgBg:       'linear-gradient(160deg, #1E0459 0%, #3B0764 25%, #4C1D95 55%, #5B21B6 80%, #6D28D9 100%)',
+    dark:        true,
+    shapes: [
+      [4,  16, 18, 55, 0.12],
+      [26, 16, 70, 22, 0.10],
+      [26, 42, 33, 8,  0.10],
+      [62, 42, 34, 8,  0.10],
+      [26, 55, 70, 14, 0.08],
+    ],
+  },
   meta: [
     { label: 'Client',   value: 'AiQEM Tech' },
     { label: 'Role',     value: 'UX Designer (Solo)' },
@@ -314,9 +361,25 @@ const fema: Project = {
   title:    'FEMA',
   subtitle: 'Future Education Mastery Accelerator',
   tagline:  'A learning platform built for Ethiopian students — from scratch.',
+  navLabel: 'FEMA LMS',
   badge:    'Mobile App · EdTech',
   accent:   '#065F46',
   accentBg: '#F0FDF4',
+  card: {
+    description: 'A mobile learning management system built from scratch for Ethiopian students — serving four distinct user types (student, teacher, parent, admin) in one cohesive bilingual platform. Designed in 7 weeks at the 10 Academy Accelerator.',
+    role:        'UX Designer (Solo)',
+    timeline:    '2023 — 2024',
+    chromeBg:    'rgba(255,255,255,0.09)',
+    imgBg:       'linear-gradient(160deg, #022C22 0%, #065F46 40%, #0F766E 70%, #14B8A6 100%)',
+    dark:        true,
+    shapes: [
+      [28, 12, 44, 62, 0.09],
+      [8,  14, 17, 55, 0.08],
+      [75, 14, 17, 55, 0.08],
+      [8,  72, 84, 5,  0.12],
+      [8,  80, 60, 4,  0.09],
+    ],
+  },
   meta: [
     { label: 'Context',  value: '10 Academy Accelerator' },
     { label: 'Role',     value: 'UX Designer (Solo)' },
@@ -436,9 +499,25 @@ const cache: Project = {
   title:   'Cache',
   subtitle:'Menu App',
   tagline: 'Replacing paper menus and phone calls with a seamless digital ordering experience.',
+  navLabel:'Cache Menu App',
   badge:   'Mobile App · Hospitality',
   accent:  '#92400E',
   accentBg:'#FFFBEB',
+  card: {
+    description: 'A digital room service and food ordering system for Ethiopian hotels — replacing paper menus, phone calls, and cash-only payment with a seamless mobile experience. Shipped before a competitor entered the market.',
+    role:        'UX Designer',
+    timeline:    '2022 — 2023',
+    chromeBg:    'rgba(0,0,0,0.35)',
+    imgBg:       'linear-gradient(160deg, #1C0A00 0%, #451A03 30%, #78350F 60%, #92400E 80%, #B45309 100%)',
+    dark:        true,
+    shapes: [
+      [30, 10, 40, 60, 0.09],
+      [10, 14, 17, 55, 0.08],
+      [73, 14, 17, 55, 0.08],
+      [10, 72, 80, 5,  0.13],
+      [10, 80, 56, 4,  0.10],
+    ],
+  },
   meta: [
     { label: 'Client',   value: 'Platform Technologies PLC' },
     { label: 'Role',     value: 'UX Designer' },
@@ -526,6 +605,9 @@ const cache: Project = {
 
 // ── Export ────────────────────────────────────────────────────────────────────
 export const PROJECTS: Project[] = [novalut, aiqem, fema, cache]
+
+// Single source of truth for nav + footer link lists.
+export const PROJECT_LINKS = PROJECTS.map(p => ({ label: p.navLabel, href: `/${p.slug}` }))
 
 export function getProject(slug: string): Project | undefined {
   return PROJECTS.find(p => p.slug === slug)
