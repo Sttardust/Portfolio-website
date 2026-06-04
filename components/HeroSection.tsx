@@ -36,6 +36,7 @@ export default function HeroSection() {
           userSelect:    'none',
         }}
       >
+        {/* eslint-disable-next-line @next/next/no-img-element -- decorative inline SVG, not an optimizable raster image */}
         <img
           src="/hero.svg"
           alt=""

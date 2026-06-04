@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useCallback } from 'react'
 import Link from 'next/link'
+import { PROJECT_LINKS } from '@/lib/projects'
 
 /* ── Glyph data (4 rows × 20 = 80 chars) ─────────────────── */
 const ALL_CHARS = [
@@ -80,12 +81,7 @@ function GlyphGrid() {
 }
 
 /* ── Link data ───────────────────────────────────────────── */
-const WORK_LINKS = [
-  { label: 'Novalut Fintech App',    href: '/novalut' },
-  { label: 'AiQEM AdTech Dashboard', href: '/aiqem'   },
-  { label: 'FEMA LMS',               href: '/fema'    },
-  { label: 'Cache Menu App',         href: '/cache'   },
-]
+const WORK_LINKS = PROJECT_LINKS
 
 const CONTACT_LINKS = [
   { label: 'LinkedIn', href: 'https://www.linkedin.com/in/semere-seifu-stardust', external: true  },

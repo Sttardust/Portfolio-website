@@ -3,17 +3,13 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { PROJECT_LINKS } from '@/lib/projects'
 
 const NAV_LINKS = [
   { label: 'About', href: '/about' },
 ]
 
-const CASE_STUDIES = [
-  { label: 'Novalut Fintech App',      href: '/novalut' },
-  { label: 'AiQEM AdTech Dashboard',   href: '/aiqem'   },
-  { label: 'FEMA LMS',                 href: '/fema'    },
-  { label: 'Cache Menu App',           href: '/cache'   },
-]
+const CASE_STUDIES = PROJECT_LINKS
 
 export default function Nav() {
   const [scrolled,       setScrolled]       = useState(false)
@@ -64,7 +60,8 @@ export default function Nav() {
     return () => document.removeEventListener('mousedown', onClick)
   }, [])
 
-  /* ── Close menu on route change ─────────────────────── */
+  /* ── Close overlays on navigation (incl. browser back/forward) ── */
+  // eslint-disable-next-line react-hooks/set-state-in-effect -- intentional: collapse menus whenever the route changes
   useEffect(() => { setMenuOpen(false); setDropdownOpen(false) }, [pathname])
 
   return (
@@ -99,6 +96,7 @@ export default function Nav() {
           {/* Logo — shown on all pages except homepage, and on homepage once scrolled */}
           {(pathname !== '/' || scrolled) && (
             <Link href="/" style={{ display: 'flex', alignItems: 'center', flexShrink: 0 }}>
+              {/* eslint-disable-next-line @next/next/no-img-element -- decorative SVG logo; next/image gives no optimization for vector assets */}
               <img
                 src="/logo.svg"
                 alt="Smre. — Home"

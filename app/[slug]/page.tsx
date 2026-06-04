@@ -19,7 +19,6 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       title:       `${project.title} — Semere Seifu`,
       description: project.tagline,
       type:        'article',
-      images:      [{ url: '/og-image.png', width: 1200, height: 630 }],
     },
     twitter: {
       card:        'summary_large_image',

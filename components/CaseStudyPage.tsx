@@ -6,7 +6,6 @@ import type { Project } from '@/lib/projects'
 
 /* ── Constants ─────────────────────────────────────────────────────────────── */
 const PAD  = 'clamp(1.5rem, calc((1500px - 100vw) / 10), 5rem)'
-const EASE = 'cubic-bezier(0.22, 1, 0.36, 1)'
 
 /* ── Scroll-reveal ─────────────────────────────────────────────────────────── */
 function useReveal(threshold = 0.05) {
@@ -81,11 +80,6 @@ function Body({ text }: { text: string }) {
       {text}
     </p>
   )
-}
-
-/* ── Divider ────────────────────────────────────────────────────────────────── */
-function Divider() {
-  return <div style={{ borderTop: '1px solid var(--border)', margin: 0 }} />
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════ */
