@@ -367,6 +367,7 @@ const fema: Project = {
   badge:    'Mobile App · EdTech',
   accent:   '#065F46',
   accentBg: '#F0FDF4',
+  cover:    '/fema/cover.jpg',
   card: {
     description: 'A mobile learning management system built from scratch for Ethiopian students. It serves four user types (student, teacher, parent, admin) in one bilingual platform, designed in 7 weeks at the 10 Academy Accelerator.',
     role:        'UX Designer (Solo)',
