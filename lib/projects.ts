@@ -506,6 +506,7 @@ const cache: Project = {
   badge:   'Mobile App · Hospitality',
   accent:  '#92400E',
   accentBg:'#FFFBEB',
+  cover:   '/cache/cover.jpg',
   card: {
     description: 'A digital room-service and food-ordering system for Ethiopian hotels, replacing paper menus, phone calls, and cash-only payment with a smooth mobile experience. Shipped before a competitor reached the market.',
     role:        'UX Designer',
