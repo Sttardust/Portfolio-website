@@ -42,6 +42,7 @@ export interface Project {
 
   // Media
   video?: string           // path relative to /public, e.g. '/novalut/final-comps.mp4'
+  cover?: string           // case-study hero image (2:1), path relative to /public
 
   // Homepage card
   card: HomeCard
@@ -222,6 +223,7 @@ const aiqem: Project = {
   badge:   'Web Dashboard · AdTech',
   accent:  '#4C1D95',
   accentBg:'#F5F3FF',
+  cover:   '/aiqem/cover.jpg',
   card: {
     description: 'An end-to-end advertising analytics dashboard for AiQEM Tech. It surfaces five core data types across a modular interface for two distinct user types, built to do away with manual reporting.',
     role:        'UX Designer (Solo)',

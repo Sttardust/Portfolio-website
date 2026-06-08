@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
+import Image from 'next/image'
 import type { Project } from '@/lib/projects'
 
 /* ── Constants ─────────────────────────────────────────────────────────────── */
@@ -161,7 +162,16 @@ export default function CaseStudyPage({ project }: { project: Project }) {
               background:   `linear-gradient(160deg, ${project.accent}22 0%, ${project.accent}44 100%)`,
               position:     'relative',
             }}>
-              {project.video ? (
+              {project.cover ? (
+                <Image
+                  src={project.cover}
+                  alt={`${project.title} cover`}
+                  fill
+                  priority
+                  sizes="(min-width: 1400px) 1400px, 100vw"
+                  style={{ objectFit: 'cover' }}
+                />
+              ) : project.video ? (
                 <video
                   src={project.video}
                   autoPlay
