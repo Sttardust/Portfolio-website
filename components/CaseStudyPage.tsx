@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
-import Link from 'next/link'
 import type { Project } from '@/lib/projects'
 
 /* ── Constants ─────────────────────────────────────────────────────────────── */
@@ -473,7 +472,7 @@ export default function CaseStudyPage({ project }: { project: Project }) {
           OUTCOME
       ══════════════════════════════════════════════════════ */}
       <section style={{
-        background:    'var(--fg)',
+        background:    'var(--bg)',
         paddingTop:    'clamp(4rem, 7vw, 7rem)',
         paddingBottom: 'clamp(4rem, 7vw, 7rem)',
         paddingLeft:   PAD,
@@ -486,8 +485,7 @@ export default function CaseStudyPage({ project }: { project: Project }) {
               fontWeight:    700,
               letterSpacing: '0.14em',
               textTransform: 'uppercase',
-              color:         project.accentBg,
-              opacity:       0.6,
+              color:         project.accent,
               marginBottom:  '1.25rem',
             }}>
               Outcome
@@ -498,14 +496,14 @@ export default function CaseStudyPage({ project }: { project: Project }) {
               fontWeight:    700,
               lineHeight:    1.1,
               letterSpacing: '-0.02em',
-              color:         'var(--dark-fg)',
+              color:         'var(--fg)',
               marginBottom:  '2rem',
             }}>
               {project.outcome.heading}
             </h2>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem', marginBottom: '2.5rem' }}>
               {project.outcome.body.map((para, i) => (
-                <p key={i} style={{ fontSize: '1rem', lineHeight: 1.8, color: 'rgba(248,245,241,0.55)', margin: 0 }}>
+                <p key={i} style={{ fontSize: '1rem', lineHeight: 1.8, color: 'var(--muted)', margin: 0 }}>
                   {para}
                 </p>
               ))}
@@ -517,7 +515,7 @@ export default function CaseStudyPage({ project }: { project: Project }) {
                     display:    'flex',
                     gap:        '0.875rem',
                     fontSize:   '0.9375rem',
-                    color:      'rgba(248,245,241,0.75)',
+                    color:      'var(--muted)',
                     lineHeight: 1.55,
                     alignItems: 'flex-start',
                   }}>
@@ -530,50 +528,6 @@ export default function CaseStudyPage({ project }: { project: Project }) {
           </Reveal>
         </div>
       </section>
-
-      {/* ══════════════════════════════════════════════════════
-          PREV / NEXT NAV
-      ══════════════════════════════════════════════════════ */}
-      <nav
-        aria-label="Project navigation"
-        style={{
-          background:          'var(--bg)',
-          display:             'grid',
-          gridTemplateColumns: project.prev && project.next ? '1fr 1fr' : '1fr',
-        }}
-      >
-        {project.prev && (
-          <Link
-            href={`/${project.prev.slug}`}
-            className="csp-nav-link"
-            style={{
-              display:     'block',
-              padding:     'clamp(2rem, 4vw, 3.5rem)',
-            }}
-          >
-            <p style={{ fontSize: '0.625rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--muted)', margin: '0 0 0.5rem' }}>← Previous</p>
-            <p style={{ fontFamily: 'var(--font-recoleta)', fontSize: 'clamp(1rem, 2vw, 1.375rem)', fontWeight: 700, color: 'var(--fg)', margin: 0, letterSpacing: '-0.01em' }}>
-              {project.prev.title}
-            </p>
-          </Link>
-        )}
-        {project.next && (
-          <Link
-            href={`/${project.next.slug}`}
-            className="csp-nav-link"
-            style={{
-              display:   'block',
-              padding:   'clamp(2rem, 4vw, 3.5rem)',
-              textAlign: 'right',
-            }}
-          >
-            <p style={{ fontSize: '0.625rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--muted)', margin: '0 0 0.5rem' }}>Next →</p>
-            <p style={{ fontFamily: 'var(--font-recoleta)', fontSize: 'clamp(1rem, 2vw, 1.375rem)', fontWeight: 700, color: 'var(--fg)', margin: 0, letterSpacing: '-0.01em' }}>
-              {project.next.title}
-            </p>
-          </Link>
-        )}
-      </nav>
     </div>
   )
 }
