@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
+import Image from 'next/image'
 import Link from 'next/link'
 import { PROJECTS, type Project } from '@/lib/projects'
 
@@ -108,7 +109,16 @@ function ProjectCard({ project }: { project: Project }) {
         {/* Gradient base */}
         <div className="cs-img-bg" style={{ background: card.imgBg }} />
 
-        {project.video ? (
+        {project.cover ? (
+          /* Branded cover image */
+          <Image
+            src={project.cover}
+            alt=""
+            fill
+            sizes="(min-width: 1536px) 1496px, 100vw"
+            style={{ objectFit: 'cover' }}
+          />
+        ) : project.video ? (
           /* Video preview */
           <video
             src={project.video}

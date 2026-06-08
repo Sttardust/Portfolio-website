@@ -42,6 +42,7 @@ export interface Project {
 
   // Media
   video?: string           // path relative to /public, e.g. '/novalut/final-comps.mp4'
+  cover?: string           // case-study hero image (2:1), path relative to /public
 
   // Homepage card
   card: HomeCard
@@ -222,6 +223,7 @@ const aiqem: Project = {
   badge:   'Web Dashboard · AdTech',
   accent:  '#4C1D95',
   accentBg:'#F5F3FF',
+  cover:   '/aiqem/cover.jpg',
   card: {
     description: 'An end-to-end advertising analytics dashboard for AiQEM Tech. It surfaces five core data types across a modular interface for two distinct user types, built to do away with manual reporting.',
     role:        'UX Designer (Solo)',
@@ -365,6 +367,7 @@ const fema: Project = {
   badge:    'Mobile App · EdTech',
   accent:   '#065F46',
   accentBg: '#F0FDF4',
+  cover:    '/fema/cover.jpg',
   card: {
     description: 'A mobile learning management system built from scratch for Ethiopian students. It serves four user types (student, teacher, parent, admin) in one bilingual platform, designed in 7 weeks at the 10 Academy Accelerator.',
     role:        'UX Designer (Solo)',
@@ -503,6 +506,7 @@ const cache: Project = {
   badge:   'Mobile App · Hospitality',
   accent:  '#92400E',
   accentBg:'#FFFBEB',
+  cover:   '/cache/cover.jpg',
   card: {
     description: 'A digital room-service and food-ordering system for Ethiopian hotels, replacing paper menus, phone calls, and cash-only payment with a smooth mobile experience. Shipped before a competitor reached the market.',
     role:        'UX Designer',
