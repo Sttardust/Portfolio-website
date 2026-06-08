@@ -160,7 +160,7 @@ export default function Footer() {
               maxWidth:   '26ch',
             }}>
               Turning complexity into simple,<br />
-              usable products — one decision at a time.
+              usable products.
             </p>
           </div>
 
@@ -169,7 +169,7 @@ export default function Footer() {
           </div>
 
           <div className="footer-year" style={{ fontSize: '0.875rem', color: 'var(--dark-muted)', opacity: 0.5, lineHeight: 1.65 }}>
-            <p>© {new Date().getFullYear()} · Made with a lot of typing and planning in Addis Ababa, Ethiopia.</p>
+            <p>© {new Date().getFullYear()} · Designed and built in Addis Ababa, Ethiopia.</p>
           </div>
         </div>
 

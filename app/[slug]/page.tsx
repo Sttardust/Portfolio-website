@@ -16,13 +16,13 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     title:       project.title,
     description: project.tagline,
     openGraph: {
-      title:       `${project.title} — Semere Seifu`,
+      title:       `${project.title} · Semere Seifu`,
       description: project.tagline,
       type:        'article',
     },
     twitter: {
       card:        'summary_large_image',
-      title:       `${project.title} — Semere Seifu`,
+      title:       `${project.title} · Semere Seifu`,
       description: project.tagline,
     },
   }

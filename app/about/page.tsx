@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
+import Image from 'next/image'
 import Link from 'next/link'
 
 /* ── Constants ───────────────────────────────────────────── */
@@ -37,63 +38,54 @@ function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: nu
   )
 }
 
-/* ── Photo mosaic placeholder ────────────────────────────── */
-const MOSAIC_LAYOUTS = [
-  // Layout A: 2 tall left, 3 stacked right
-  [
-    { gridColumn: '1', gridRow: '1 / 3', aspectRatio: '3/4' },
-    { gridColumn: '2', gridRow: '1 / 3', aspectRatio: '3/4' },
-    { gridColumn: '3', gridRow: '1',     aspectRatio: '4/3' },
-    { gridColumn: '3', gridRow: '2',     aspectRatio: '4/3' },
-  ],
-  // Layout B: wide top, 3 bottom
-  [
-    { gridColumn: '1 / 3', gridRow: '1', aspectRatio: '16/9' },
-    { gridColumn: '3',     gridRow: '1', aspectRatio: '4/3'  },
-    { gridColumn: '1',     gridRow: '2', aspectRatio: '4/3'  },
-    { gridColumn: '2',     gridRow: '2', aspectRatio: '4/3'  },
-    { gridColumn: '3',     gridRow: '2', aspectRatio: '4/3'  },
-  ],
-  // Layout C: 3 top, wide bottom
-  [
-    { gridColumn: '1',     gridRow: '1', aspectRatio: '4/3'  },
-    { gridColumn: '2',     gridRow: '1', aspectRatio: '4/3'  },
-    { gridColumn: '3',     gridRow: '1', aspectRatio: '4/3'  },
-    { gridColumn: '1 / 3', gridRow: '2', aspectRatio: '16/9' },
-    { gridColumn: '3',     gridRow: '2', aspectRatio: '4/3'  },
-  ],
-]
+/* ── Photos ──────────────────────────────────────────────────────────────────
+   To add a photo: drop the file in /public/about/ and set its `src` below.
+   While `src` is empty, a styled placeholder shows — so the page never breaks
+   and you can fill these in one at a time. Update `alt` to match each photo.
+─────────────────────────────────────────────────────────────────────────── */
+type Photo = { src: string; alt: string }
 
-function PhotoMosaic({ index = 0, tint = '#5d6067' }: { index?: number; tint?: string }) {
-  const layout = MOSAIC_LAYOUTS[index % MOSAIC_LAYOUTS.length]
+// Hero cover — recommended ≈2000px wide.  File: /public/about/cover.jpg
+const COVER: Photo = { src: '/about/cover.jpg', alt: 'Semere walking among marabou storks in a park in Addis Ababa' }
+
+/* ── Photo pair (two images per section) ─────────────────── */
+const PLACEHOLDER_ICON = (tint: string) => (
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" opacity={0.3} aria-hidden>
+    <rect x="3" y="3" width="18" height="18" rx="2" stroke={tint} strokeWidth="1.5"/>
+    <circle cx="8.5" cy="8.5" r="1.5" fill={tint}/>
+    <path d="M21 15l-5-5L5 21" stroke={tint} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+  </svg>
+)
+
+function PhotoPair({ photos, tint }: { photos: Photo[]; tint: string }) {
   return (
     <div className="ap-mosaic" style={{
       display:             'grid',
-      gridTemplateColumns: 'repeat(3, 1fr)',
-      gap:                 '6px',
+      gridTemplateColumns: 'repeat(2, 1fr)',
+      gap:                 '12px',
     }}>
-      {layout.map((cell, i) => (
-        <div
-          key={i}
-          style={{
-            gridColumn:  cell.gridColumn,
-            gridRow:     cell.gridRow,
-            aspectRatio: cell.aspectRatio,
-            background:  `linear-gradient(135deg, ${tint}18 0%, ${tint}32 100%)`,
-            borderRadius:'4px',
-            display:     'flex',
-            alignItems:  'center',
-            justifyContent:'center',
-            overflow:    'hidden',
-          }}
-        >
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" opacity={0.3}>
-            <rect x="3" y="3" width="18" height="18" rx="2" stroke={tint} strokeWidth="1.5"/>
-            <circle cx="8.5" cy="8.5" r="1.5" fill={tint}/>
-            <path d="M21 15l-5-5L5 21" stroke={tint} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
-        </div>
-      ))}
+      {[0, 1].map((i) => {
+        const photo = photos[i]
+        return (
+          <div
+            key={i}
+            style={{
+              position:       'relative',
+              aspectRatio:    '4 / 5',
+              borderRadius:   '4px',
+              overflow:       'hidden',
+              background:     `linear-gradient(135deg, ${tint}18 0%, ${tint}32 100%)`,
+              display:        'flex',
+              alignItems:     'center',
+              justifyContent: 'center',
+            }}
+          >
+            {photo?.src
+              ? <Image src={photo.src} alt={photo.alt} fill sizes="(max-width: 1023px) 45vw, 340px" style={{ objectFit: 'cover' }} />
+              : PLACEHOLDER_ICON(tint)}
+          </div>
+        )
+      })}
     </div>
   )
 }
@@ -112,49 +104,49 @@ const SECTIONS = [
     id:      'designer',
     heading: "I'm a Designer.",
     body: [
-      "Design, for me, is a discipline of listening. I dig into research, map user journeys, and obsess over the gap between what people say they want and what they actually need.",
-      "My background in engineering shaped how I think — methodically, systematically, always with a reason behind every decision. I work end-to-end: from discovery and wireframes all the way through to high-fidelity prototypes and design systems.",
-      "Tools are just tools. What I care about is the thinking that comes before them.",
+      "Most of design is listening. I dig into research, map how people actually move through a product, and pay attention to the gap between what they say they want and what they really need.",
+      "My engineering background shaped how I think. I work in an orderly way, with a reason behind each decision, and I stay involved end to end: discovery, wireframes, high-fidelity prototypes, and the design system that holds it together.",
+      "The tools matter less than the thinking that happens before I open them.",
     ],
-    mosaic: 0,
+    // Files: /public/about/designer-1.jpg, /public/about/designer-2.jpg
+    photos: [
+      { src: '/about/designer-1.jpg', alt: "Semere's design workspace, with a landing page and Photoshop open" },
+      { src: '/about/designer-2.jpg', alt: 'A hand-sketched UI wireframe' },
+    ] as Photo[],
     tint:   '#1E3A5F',
     flip:   false,
-  },
-  {
-    id:      'creative',
-    heading: "I'm a Creative.",
-    body: [
-      "Design bleeds into everything. I sketch, make moodboards, obsess over type pairings, and spend embarrassing amounts of time in museums and on Behance at 2am.",
-      "I draw inspiration from architecture, editorial design, and film — the way a composition can guide your eye without you noticing it is the same magic I chase in every interface I build.",
-      "Creativity isn't a switch I turn on for work. It's just how I see the world.",
-    ],
-    mosaic: 1,
-    tint:   '#4C1D95',
-    flip:   true,
   },
   {
     id:      'petowner',
     heading: "I'm a Pet Owner.",
     body: [
-      "My dog is genuinely the most important stakeholder in my life. He doesn't care about kerning or conversion rates, and honestly that's very grounding.",
-      "Pet ownership teaches you patience, empathy, and the ability to read non-verbal cues — all skills that transfer surprisingly well to UX research.",
-      "He also sits next to me during every design critique. His feedback is mostly barking, but the energy is constructive.",
+      "I have two dogs and a cat at home, and between them they run the place. None of them care about kerning or conversion rates, which keeps me honest.",
+      "Looking after them is decent training for the job: patience, reading body language, and noticing what someone needs before they can say it.",
+      "They keep me company through most of my work. The feedback is mostly barking and the odd walk across the keyboard, but I'll take it.",
     ],
-    mosaic: 2,
+    // Files: /public/about/pet-1.jpg, /public/about/pet-2.jpg
+    photos: [
+      { src: '/about/pet-1.jpg', alt: 'Semere greeting one of his dogs in the sun' },
+      { src: '/about/pet-2.jpg', alt: 'One of the dogs resting next to the cat at home' },
+    ] as Photo[],
     tint:   '#92400E',
-    flip:   false,
+    flip:   true,
   },
   {
     id:      'life',
     heading: "This is my life.",
     body: [
-      "I'm from Addis Ababa — a city that moves fast, builds fast, and has some of the best coffee on earth. Growing up here shaped my eye for contrast, texture, and the beauty in functional things.",
-      "Outside of pixels I hike, read, follow football too closely, and have strong opinions about coffee-to-water ratios. I'm also a chronic notebook buyer who rarely finishes notebooks.",
-      "I believe the fullest designers are the ones who live outside their screens.",
+      "I'm from Addis Ababa, a city that moves fast, builds fast, and makes some of the best coffee anywhere. Growing up here shaped how I see contrast, texture, and the quiet appeal of things that simply work.",
+      "Away from the screen I hike, read, follow football a little too closely, and hold firm opinions about coffee-to-water ratios. I also buy notebooks far faster than I finish them.",
+      "The best designers I know spend a good amount of their time living outside their screens.",
     ],
-    mosaic: 0,
+    // Files: /public/about/life-1.jpg, /public/about/life-2.jpg
+    photos: [
+      { src: '/about/life-1.jpg', alt: 'Semere pouring coffee at a traditional Ethiopian coffee ceremony' },
+      { src: '/about/life-2.jpg', alt: 'A cup of Ethiopian coffee' },
+    ] as Photo[],
     tint:   '#065F46',
-    flip:   true,
+    flip:   false,
   },
 ]
 
@@ -210,9 +202,10 @@ export default function AboutPage() {
             </p>
           </Reveal>
 
-          {/* Hero image placeholder */}
+          {/* Hero cover */}
           <Reveal delay={80}>
             <div className="ap-hero-img" style={{
+              position:     'relative',
               width:        '100%',
               aspectRatio:  '21 / 9',
               borderRadius: '6px',
@@ -223,16 +216,27 @@ export default function AboutPage() {
               justifyContent:'center',
               marginBottom: 0,
             }}>
-              <p style={{
-                fontSize:      '0.6875rem',
-                fontWeight:    700,
-                letterSpacing: '0.12em',
-                textTransform: 'uppercase',
-                color:         'var(--muted)',
-                opacity:       0.5,
-              }}>
-                Cover photo coming soon
-              </p>
+              {COVER.src ? (
+                <Image
+                  src={COVER.src}
+                  alt={COVER.alt}
+                  fill
+                  priority
+                  sizes="(min-width: 1400px) 1400px, 100vw"
+                  style={{ objectFit: 'cover' }}
+                />
+              ) : (
+                <p style={{
+                  fontSize:      '0.6875rem',
+                  fontWeight:    700,
+                  letterSpacing: '0.12em',
+                  textTransform: 'uppercase',
+                  color:         'var(--muted)',
+                  opacity:       0.5,
+                }}>
+                  Cover photo coming soon
+                </p>
+              )}
             </div>
           </Reveal>
         </div>
@@ -285,13 +289,13 @@ export default function AboutPage() {
               color:         'var(--muted)',
               marginBottom:  '1.5rem',
             }}>
-              — Also known as Semere
+              Also known as Semere
             </p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem', marginBottom: '2.5rem' }}>
               {[
-                'I specialise in turning complex problems into clear, intuitive interfaces — working closely with product managers and developers from research all the way through to shipped product.',
-                "My path into design wasn't linear. I studied Chemical and Bio Engineering before following my curiosity into UX. That engineering mindset still shapes how I work: methodically, systematically, and always with the end-user at the centre.",
-                'I believe the best products emerge when research, empathy, and attention to detail are given equal weight alongside the visual craft.',
+                'I take complex problems and turn them into clear, usable interfaces. I work closely with product managers and developers, from the first round of research through to launch.',
+                "My route into design wasn't a straight line. I studied Chemical and Bio Engineering before moving into UX, and that background still shapes how I work: carefully, with a reason behind every decision and the user kept at the centre.",
+                'The best products come from giving research, empathy, and the small details as much weight as the visual craft.',
               ].map((p, i) => (
                 <p key={i} style={{ fontSize: '0.9375rem', lineHeight: 1.8, color: 'var(--muted)', margin: 0 }}>
                   {p}
@@ -369,7 +373,7 @@ export default function AboutPage() {
       {/* ══════════════════════════════════════════════════
           PERSONAL SECTIONS
       ══════════════════════════════════════════════════ */}
-      {SECTIONS.map(({ id, heading, body, mosaic, tint, flip }) => (
+      {SECTIONS.map(({ id, heading, body, photos, tint, flip }) => (
         <section
           key={id}
           style={{
@@ -391,10 +395,10 @@ export default function AboutPage() {
           }}
             className="ap-section-grid"
           >
-            {/* Image mosaic */}
+            {/* Image pair */}
             <Reveal delay={60}>
               <div style={{ direction: 'ltr' }}>
-                <PhotoMosaic index={mosaic} tint={tint} />
+                <PhotoPair photos={photos} tint={tint} />
               </div>
             </Reveal>
 
