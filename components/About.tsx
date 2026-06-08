@@ -5,10 +5,10 @@ import Link from 'next/link'
 
 /* ── Data ────────────────────────────────────────────────── */
 const EXPERIENCE = [
-  { company: 'AiQEM Tech',            role: 'UI/UX & Graphic Designer',    years: '2023 — 2025' },
-  { company: '10 Academy',            role: 'Part-time Design Accelerator', years: '2023 — 2024' },
-  { company: 'Platform Technologies', role: 'UI/UX Designer',               years: '2022 — 2023' },
-  { company: 'BeeZ Social ERP',       role: 'UI/UX Designer',               years: '2020 — 2021' },
+  { company: 'AiQEM Tech',            role: 'UI/UX & Graphic Designer',    years: '2023–2025' },
+  { company: '10 Academy',            role: 'Part-time Design Accelerator', years: '2023–2024' },
+  { company: 'Platform Technologies', role: 'UI/UX Designer',               years: '2022–2023' },
+  { company: 'BeeZ Social ERP',       role: 'UI/UX Designer',               years: '2020–2021' },
 ]
 
 const FREELANCE = [
@@ -18,22 +18,22 @@ const FREELANCE = [
 ]
 
 const EDUCATION = [
-  { company: 'Google / Coursera',                  role: 'UX Design Professional Certificate', years: '2021 — 2022' },
+  { company: 'Google / Coursera',                  role: 'UX Design Professional Certificate', years: '2021–2022' },
   { company: 'Addis Ababa Inst. of Technology',    role: 'BSc Chemical & Bio Engineering',     years: '2018' },
 ]
 
 const PRINCIPLES = [
   {
     title: ['Curious,', 'yet Critical.'],
-    body: 'Good design starts long before the first frame. I dig into the problem space, question assumptions, and let research lead — so every decision has a clear reason behind it.',
+    body: 'Good design starts well before the first frame. I dig into the problem, question assumptions, and let research lead, so every decision has a clear reason behind it.',
   },
   {
     title: ['Purpose over', 'Aesthetics.'],
-    body: "A beautiful interface that confuses people is an expensive mistake. Every visual choice I make serves the user's goal first. Clarity and usability always come before style.",
+    body: "A beautiful interface that confuses people is an expensive mistake. Every visual choice serves the user's goal first, and clarity comes before style.",
   },
   {
     title: ['Details', 'Matter.'],
-    body: 'The gap between good and great lives in the small things — the spacing, the micro-interaction, the edge case nobody planned for. I care about every pixel because users feel it.',
+    body: 'The difference between good and great lives in the small things: the spacing, the micro-interaction, the edge case nobody planned for. I sweat those because users feel them.',
   },
 ]
 
@@ -118,9 +118,9 @@ export default function About() {
           }}
         >
           {[
-            'I specialise in turning complex problems into clear, intuitive interfaces — working closely with product managers and developers from research all the way through to shipped product.',
-            "My path into design wasn't linear. I studied Chemical and Bio Engineering before following my curiosity into UX. That engineering mindset still shapes how I work: methodically, systematically, and always with the end-user at the centre.",
-            'I believe the best products emerge when research, empathy, and attention to detail are given equal weight alongside the visual craft.',
+            'I take complex problems and turn them into clear, usable interfaces. I work closely with product managers and developers, from the first round of research through to launch.',
+            "My route into design wasn't a straight line. I studied Chemical and Bio Engineering before moving into UX, and that background still shapes how I work: carefully, with a reason behind every decision and the user kept at the centre.",
+            'The best products come from giving research, empathy, and the small details as much weight as the visual craft.',
           ].map((p, i) => (
             <p key={i} style={{ fontSize: '1rem', lineHeight: 1.75, color: 'var(--muted)' }}>
               {p}
