@@ -20,6 +20,16 @@ export const metadata: Metadata = {
   description: 'UI/UX & Product Designer based in Addis Ababa, Ethiopia. Turning complexity into simple, usable products.',
   keywords:    ['UI/UX Designer', 'Product Designer', 'Addis Ababa', 'Ethiopia', 'Semere Seifu', 'Fintech', 'Mobile Design', 'Design Systems'],
   authors:     [{ name: 'Semere Seifu', url: 'https://semere-portfolio.vercel.app' }],
+  icons: {
+    icon: [
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+      { url: '/favicon-96x96.png', type: 'image/png', sizes: '96x96' },
+    ],
+    shortcut: '/favicon.ico',
+    apple:    [{ url: '/apple-touch-icon.png', sizes: '180x180' }],
+  },
+  manifest:    '/site.webmanifest',
+  appleWebApp: { title: "Semere's Portfolio" },
   openGraph: {
     type:        'website',
     locale:      'en_US',
