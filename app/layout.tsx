@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     apple:    [{ url: '/apple-touch-icon.png', sizes: '180x180' }],
   },
   manifest:    '/site.webmanifest',
-  appleWebApp: { title: "Semere's Portfolio" },
+  appleWebApp: { title: 'StarDust' },
   openGraph: {
     type:        'website',
     locale:      'en_US',
