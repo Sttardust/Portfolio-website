@@ -1,5 +1,5 @@
 {
-  "name": "Semere's Portfolio",
+  "name": "MyWebSite",
   "short_name": "MySite",
   "icons": [
     {
@@ -15,7 +15,7 @@
       "purpose": "maskable"
     }
   ],
-  "theme_color": "#ffffff",
+  "theme_color": "#fff0d6",
   "background_color": "#ffffff",
   "display": "standalone"
 }
